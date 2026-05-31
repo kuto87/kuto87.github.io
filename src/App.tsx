@@ -3,8 +3,10 @@ import './App.css'
 import { projects } from './data/projects'
 
 type Language = 'ja' | 'en'
+type DesignMode = 'a' | 'b' | 'c' | 'd' | 'e'
 
 const languageStorageKey = 'kuto-lab-language'
+const designStorageKey = 'kuto-lab-design'
 
 const socialLinks = [
   {
@@ -24,6 +26,8 @@ const projectStatusLabels = {
   GitHub: 'GitHub',
 } as const
 
+const designModes: DesignMode[] = ['a', 'b', 'c', 'd', 'e']
+
 const copy = {
   ja: {
     nav: {
@@ -31,26 +35,27 @@ const copy = {
       about: 'About',
     },
     languageLabel: '表示言語',
+    designLabel: 'デザイン',
     hero: {
       eyebrow: 'Kyoto, Japan',
-      title: ['作って、試して、', '少しずつ', '置いています。'],
+      title: ['作って、動かして、', '少しずつ', '育てています。'],
       text: [
         'Webアプリ、ゲーム、自動化ツールなど。',
-        '勉強しながら作ったものを、気楽に見られる形でまとめています。',
+        '手を動かして覚えたことを、見やすいプロジェクトとしてまとめています。',
       ],
       action: '作ったものを見る',
       note: 'React / Python / Firebase / small tools',
-      topics: ['Webアプリ', 'ゲーム', '自動化', '学習ログ'],
+      topics: ['React', 'TypeScript', 'Webアプリ', 'ゲーム', '自動化'],
     },
     projects: {
       eyebrow: 'Projects',
       title: '作ったもの',
-      lead: '完成したものも、試作中のものも。手を動かしながら覚えたことを、小さなプロジェクトとして置いています。',
+      lead: 'アプリ、ゲーム、CLIツールなど。追加するときは projects.ts を編集するだけでカードに反映されます。',
     },
     about: {
       eyebrow: 'About',
       title: 'くとうさの小さな制作置き場。',
-      text: 'プログラミングを勉強しながら、Webアプリやゲーム、自動化ツールなどを少しずつ作っています。きれいに作り切ることだけでなく、試して残すことも大事にしています。',
+      text: 'React、TypeScript、Pythonなどを使いながら、Webアプリやゲーム、自動化ツールを作っています。小さく作って、動かして、あとから育てやすい形にするのが好きです。',
     },
     contact: {
       eyebrow: 'Contact',
@@ -68,26 +73,27 @@ const copy = {
       about: 'About',
     },
     languageLabel: 'Language',
+    designLabel: 'Style',
     hero: {
       eyebrow: 'Kyoto, Japan',
-      title: ['Making, testing,', 'and keeping', 'small things here.'],
+      title: ['Building, running,', 'and growing', 'small projects.'],
       text: [
-        'Web apps, games, automation tools, and small experiments.',
-        'A soft place for projects I build while learning programming.',
+        'Web apps, games, automation tools, and small utilities.',
+        'A soft project space shaped by learning, building, and shipping small things.',
       ],
       action: 'View projects',
       note: 'React / Python / Firebase / small tools',
-      topics: ['Web apps', 'Games', 'Automation', 'Learning notes'],
+      topics: ['React', 'TypeScript', 'Web apps', 'Games', 'Automation'],
     },
     projects: {
       eyebrow: 'Projects',
       title: 'Projects',
-      lead: 'Finished pieces, prototypes, and small tools. Each one is a note from learning by making.',
+      lead: 'Apps, games, and CLI tools. New project cards can be added by editing projects.ts.',
     },
     about: {
       eyebrow: 'About',
       title: 'A small project space by Kuto.',
-      text: 'I am learning programming while making web apps, games, automation tools, and other small projects. This site keeps both finished pieces and experiments together in a relaxed way.',
+      text: 'I build web apps, games, and automation tools with React, TypeScript, Python, and other small pieces of tech. I like making things simple, usable, and easy to grow later.',
     },
     contact: {
       eyebrow: 'Contact',
@@ -122,8 +128,25 @@ function detectLanguage(): Language {
   return browserLanguages.some((language) => language.toLowerCase().startsWith('ja')) ? 'ja' : 'en'
 }
 
+function detectDesignMode(): DesignMode {
+  if (typeof window === 'undefined') {
+    return 'a'
+  }
+
+  const savedDesignMode = (() => {
+    try {
+      return window.localStorage?.getItem(designStorageKey)
+    } catch {
+      return null
+    }
+  })()
+
+  return designModes.includes(savedDesignMode as DesignMode) ? (savedDesignMode as DesignMode) : 'a'
+}
+
 function App() {
   const [language, setLanguage] = useState<Language>(detectLanguage)
+  const [designMode, setDesignMode] = useState<DesignMode>(detectDesignMode)
   const t = copy[language]
 
   const languageOptions = useMemo(
@@ -145,8 +168,16 @@ function App() {
     }
   }, [language])
 
+  useEffect(() => {
+    try {
+      window.localStorage?.setItem(designStorageKey, designMode)
+    } catch {
+      // The design switch still works for the current page even when storage is unavailable.
+    }
+  }, [designMode])
+
   return (
-    <main className="page" key={language}>
+    <main className="page" data-theme={designMode} key={language}>
       <div className="orb orb-one" />
       <div className="orb orb-two" />
       <div className="orb orb-three" />
@@ -227,6 +258,23 @@ function App() {
           ))}
         </div>
 
+        <div className="design-switch soft-card" aria-label={t.designLabel}>
+          <span>{t.designLabel}</span>
+          <div>
+            {designModes.map((mode) => (
+              <button
+                aria-pressed={designMode === mode}
+                className={designMode === mode ? 'is-active' : undefined}
+                key={mode}
+                onClick={() => setDesignMode(mode)}
+                type="button"
+              >
+                {mode.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="soft-card hero-note">
           <span className="note-dot" />
           <p>{t.hero.note}</p>
@@ -253,7 +301,6 @@ function App() {
             >
               <div className="project-top">
                 <div className="project-title">
-                  <span className="project-mark">{project.mark}</span>
                   <div>
                     <p>{project.kind[language]}</p>
                     <h3>{project.title}</h3>

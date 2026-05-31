@@ -1,6 +1,5 @@
 export type Project = {
   title: string
-  mark: string
   kind: {
     ja: string
     en: string
@@ -20,7 +19,6 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: 'break-reactor',
-    mark: '01',
     kind: {
       ja: 'ゲーム',
       en: 'Game',
@@ -38,7 +36,6 @@ export const projects: Project[] = [
   },
   {
     title: 'branch-canvas',
-    mark: '02',
     kind: {
       ja: 'Webアプリ',
       en: 'Web app',
@@ -56,7 +53,6 @@ export const projects: Project[] = [
   },
   {
     title: 'ctx-ledger',
-    mark: '03',
     kind: {
       ja: 'ツール',
       en: 'Tool',
@@ -74,18 +70,17 @@ export const projects: Project[] = [
   },
   {
     title: 'plc-factory-clicker',
-    mark: '04',
     kind: {
-      ja: '試作',
-      en: 'Prototype',
+      ja: 'ゲーム',
+      en: 'Game',
     },
     description: {
-      ja: '工場やPLCっぽい雰囲気をテーマにした、小さなクリックゲームの試作です。',
-      en: 'A small clicker game prototype with a factory and PLC-inspired mood.',
+      ja: '工場やPLCっぽい雰囲気をテーマにした、小さなクリックゲームです。',
+      en: 'A small clicker game with a factory and PLC-inspired mood.',
     },
     tags: {
-      ja: ['JavaScript', 'Game', '試作'],
-      en: ['JavaScript', 'Game', 'Prototype'],
+      ja: ['JavaScript', 'Game', 'Clicker'],
+      en: ['JavaScript', 'Game', 'Clicker'],
     },
     link: 'https://github.com/kuto87/plc-factory-clicker',
     status: 'GitHub',
