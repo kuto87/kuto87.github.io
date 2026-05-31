@@ -1,121 +1,163 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type Project = {
+  title: string
+  description: string
+  tags: string[]
+  link: string
+  status: 'Live' | 'GitHub'
+}
 
+const projects: Project[] = [
+  {
+    title: 'break-reactor',
+    description: 'A satisfying block-breaking game with upgrades and boss-like flow.',
+    tags: ['Game', 'JavaScript', 'GitHub Pages'],
+    link: 'https://kuto87.github.io/break-reactor/',
+    status: 'Live',
+  },
+  {
+    title: 'branch-canvas',
+    description: 'A small map for saving ideas, choices, and branching thoughts.',
+    tags: ['React', 'Firebase', 'Ideas'],
+    link: 'https://github.com/kuto87/branch-canvas',
+    status: 'GitHub',
+  },
+  {
+    title: 'ctx-ledger',
+    description: 'Clean context packs for AI coding agents.',
+    tags: ['Python', 'AI', 'CLI'],
+    link: 'https://github.com/kuto87/ctx-ledger',
+    status: 'GitHub',
+  },
+  {
+    title: 'plc-factory-clicker',
+    description: 'A small factory-themed clicker experiment.',
+    tags: ['JavaScript', 'Experiment'],
+    link: 'https://github.com/kuto87/plc-factory-clicker',
+    status: 'GitHub',
+  },
+]
+
+function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <main className="page">
+      <div className="orb orb-one" />
+      <div className="orb orb-two" />
+      <div className="orb orb-three" />
+
+      <header className="site-header">
+        <a className="brand" href="#">
+          <span className="brand-mark">87</span>
+          <span>Kuto Lab</span>
+        </a>
+
+        <nav className="nav">
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="https://github.com/kuto87" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </nav>
+      </header>
+
+      <section className="hero">
+        <p className="eyebrow">Kyoto, Japan</p>
+
+        <h1>
+          Small tools,
+          <br />
+          React apps,
+          <br />
+          and quiet experiments.
+        </h1>
+
+        <p className="hero-text">
+          A small place for things I build, test, and quietly improve.
+        </p>
+
+        <div className="hero-actions">
+          <a className="button primary" href="#projects">
+            View projects
+          </a>
+          <a
+            className="button ghost"
+            href="https://github.com/kuto87"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
         </div>
-        <div>
-          <h1>Get started</h1>
+
+        <div className="soft-card hero-note">
+          <span className="note-dot" />
+          <p>Python / React / Firebase / Automation</p>
+        </div>
+      </section>
+
+      <section className="section" id="projects">
+        <div className="section-heading">
+          <p className="eyebrow">Projects</p>
+          <h2>Things I made</h2>
+        </div>
+
+        <div className="project-grid">
+          {projects.map((project) => (
+            <a
+              className="project-card"
+              href={project.link}
+              key={project.title}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className="project-top">
+                <h3>{project.title}</h3>
+                <span>{project.status}</span>
+              </div>
+
+              <p>{project.description}</p>
+
+              <div className="tags">
+                {project.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="section about-section" id="about">
+        <div className="about-card">
+          <p className="eyebrow">About</p>
+          <h2>ゆるく作って、少しずつ置いていく場所。</h2>
           <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+            I like building small tools, web apps, games, and automation
+            experiments. This site is a soft home for those little projects.
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+        <div className="contact-card">
+          <p className="eyebrow">Contact</p>
+          <h2>Find me on GitHub</h2>
+          <p>Public projects and experiments are collected there.</p>
+          <a
+            className="button primary"
+            href="https://github.com/kuto87"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @kuto87
+          </a>
         </div>
       </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer className="footer">
+        <span>Kuto Lab</span>
+        <span>© 2026 kuto87</span>
+      </footer>
+    </main>
   )
 }
 
