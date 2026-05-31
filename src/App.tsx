@@ -1,6 +1,24 @@
 import './App.css'
 import { projects } from './data/projects'
 
+const socialLinks = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/kuto87',
+    buttonClass: 'github',
+  },
+  {
+    label: 'X',
+    href: 'https://x.com/rinrin1600',
+    buttonClass: 'x',
+  },
+]
+
+const projectStatusLabels = {
+  Live: '公開中',
+  GitHub: 'GitHub',
+} as const
+
 function App() {
   return (
     <main className="page">
@@ -17,12 +35,11 @@ function App() {
         <nav className="nav">
           <a href="#projects">Works</a>
           <a href="#about">About</a>
-          <a href="https://github.com/kuto87" target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <a href="https://x.com/rinrin1600" target="_blank" rel="noreferrer">
-            X
-          </a>
+          {socialLinks.map((link) => (
+            <a href={link.href} key={link.label} target="_blank" rel="noreferrer">
+              {link.label}
+            </a>
+          ))}
         </nav>
       </header>
 
@@ -47,22 +64,17 @@ function App() {
           <a className="button primary" href="#projects">
             作ったものを見る
           </a>
-          <a
-            className="button github"
-            href="https://github.com/kuto87"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-          <a
-            className="button x"
-            href="https://x.com/rinrin1600"
-            target="_blank"
-            rel="noreferrer"
-          >
-            X
-          </a>
+          {socialLinks.map((link) => (
+            <a
+              className={`button ${link.buttonClass}`}
+              href={link.href}
+              key={link.label}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
 
         <div className="soft-card hero-note">
@@ -88,7 +100,7 @@ function App() {
             >
               <div className="project-top">
                 <h3>{project.title}</h3>
-                <span>{project.status === 'Live' ? '公開中' : 'GitHub'}</span>
+                <span>{projectStatusLabels[project.status]}</span>
               </div>
 
               <p>{project.description}</p>
@@ -122,22 +134,17 @@ function App() {
           </p>
 
           <div className="link-actions">
-            <a
-              className="button github"
-              href="https://github.com/kuto87"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-            <a
-              className="button x"
-              href="https://x.com/rinrin1600"
-              target="_blank"
-              rel="noreferrer"
-            >
-              X
-            </a>
+            {socialLinks.map((link) => (
+              <a
+                className={`button ${link.buttonClass}`}
+                href={link.href}
+                key={link.label}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </section>
