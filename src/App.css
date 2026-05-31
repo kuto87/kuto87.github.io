@@ -498,53 +498,11 @@
   animation-delay: 260ms;
 }
 
-.project-card::before {
-  content: '';
-  position: absolute;
-  right: 22px;
-  bottom: 22px;
-  width: 58px;
-  height: 58px;
-  border: 1px solid rgba(169, 228, 158, 0.26);
-  border-radius: 999px;
-  opacity: 0;
-  transform: translateY(8px) scale(0.86);
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease;
-}
-
-.project-card::after {
-  content: '';
-  position: absolute;
-  right: 28px;
-  bottom: 40px;
-  width: 52px;
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(196, 153, 185, 0.22);
-  opacity: 0;
-  transform: rotate(-28deg) translateY(10px);
-  transition:
-    opacity 220ms ease,
-    transform 220ms ease;
-}
-
 .project-card:hover {
   border-color: rgba(169, 228, 158, 0.5);
   background: rgba(255, 255, 255, 0.86);
   box-shadow: 0 26px 70px rgba(96, 112, 102, 0.1);
   transform: translateY(-4px);
-}
-
-.project-card:hover::before {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.project-card:hover::after {
-  opacity: 1;
-  transform: rotate(-28deg) translateY(0);
 }
 
 .project-top {
@@ -812,15 +770,6 @@
   .contact-card {
     border-radius: 28px;
     padding: 22px;
-  }
-
-  .project-card::before {
-    width: 46px;
-    height: 46px;
-  }
-
-  .project-card::after {
-    width: 42px;
   }
 
   .footer {
