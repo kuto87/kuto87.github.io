@@ -9,13 +9,25 @@
   padding: 32px;
   color: #2f3835;
   background:
-    radial-gradient(circle at 14% 14%, rgba(188, 235, 205, 0.42), transparent 28%),
-    radial-gradient(circle at 88% 12%, rgba(204, 230, 255, 0.46), transparent 30%),
-    radial-gradient(circle at 50% 96%, rgba(255, 214, 235, 0.42), transparent 34%),
+    radial-gradient(circle, rgba(188, 235, 205, 0.52) 0 18%, transparent 44%),
+    radial-gradient(circle, rgba(204, 230, 255, 0.55) 0 20%, transparent 46%),
+    radial-gradient(circle, rgba(255, 214, 235, 0.5) 0 18%, transparent 44%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 250, 245, 0.24)),
     #fffaf6;
-  background-size: 118% 118%, 116% 116%, 120% 120%, 100% 100%, auto;
-  animation: backgroundBreath 26s ease-in-out infinite alternate;
+  background-position:
+    -12vw -12vh,
+    62vw -10vh,
+    16vw 72vh,
+    0 0,
+    0 0;
+  background-size:
+    min(740px, 84vw) min(740px, 84vw),
+    min(820px, 88vw) min(820px, 88vw),
+    min(780px, 90vw) min(780px, 90vw),
+    100% 100%,
+    auto;
+  background-repeat: no-repeat;
+  animation: backgroundFlow 36s ease-in-out infinite alternate;
 }
 
 .page::before {
@@ -30,6 +42,7 @@
   letter-spacing: -0.12em;
   line-height: 0.8;
   pointer-events: none;
+  animation: watermarkDrift 38s ease-in-out infinite alternate;
 }
 
 .page::after {
@@ -38,7 +51,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.22;
+  opacity: 0.26;
   background-image:
     radial-gradient(circle, rgba(122, 164, 142, 0.18) 1px, transparent 1px),
     radial-gradient(circle, rgba(196, 153, 185, 0.12) 1px, transparent 1px);
@@ -51,8 +64,8 @@
   position: fixed;
   z-index: 0;
   border-radius: 999px;
-  filter: blur(8px);
-  opacity: 0.5;
+  filter: blur(10px);
+  opacity: 0.58;
   pointer-events: none;
 }
 
@@ -650,23 +663,44 @@
   }
 }
 
-@keyframes backgroundBreath {
-  from {
+@keyframes backgroundFlow {
+  0% {
     background-position:
-      0% 0%,
-      100% 0%,
-      50% 100%,
+      -12vw -12vh,
+      62vw -10vh,
+      16vw 72vh,
       0 0,
       0 0;
   }
 
-  to {
+  45% {
     background-position:
-      6% 4%,
-      94% 5%,
-      48% 94%,
+      6vw -2vh,
+      48vw 4vh,
+      28vw 64vh,
       0 0,
       0 0;
+  }
+
+  100% {
+    background-position:
+      -4vw 10vh,
+      70vw 10vh,
+      4vw 58vh,
+      0 0,
+      0 0;
+  }
+}
+
+@keyframes watermarkDrift {
+  from {
+    opacity: 0.7;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(-18px, 18px, 0) rotate(-1.5deg);
   }
 }
 
@@ -686,7 +720,7 @@
   }
 
   to {
-    transform: translate3d(14px, -18px, 0) scale(1.03);
+    transform: translate3d(34px, -38px, 0) scale(1.08);
   }
 }
 
@@ -696,7 +730,7 @@
   }
 
   to {
-    transform: translate3d(-18px, 16px, 0) scale(1.025);
+    transform: translate3d(-42px, 34px, 0) scale(1.07);
   }
 }
 
@@ -706,7 +740,7 @@
   }
 
   to {
-    transform: translate3d(16px, 12px, 0) scale(1.035);
+    transform: translate3d(36px, 28px, 0) scale(1.08);
   }
 }
 
