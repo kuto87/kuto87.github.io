@@ -139,6 +139,7 @@
   justify-content: space-between;
   gap: 24px;
   padding: 16px 0;
+  animation: fadeInSoft 520ms ease both;
 }
 
 .brand {
@@ -149,6 +150,11 @@
   font-size: 1rem;
   font-weight: 750;
   text-decoration: none;
+  transition: transform 180ms ease;
+}
+
+.brand:hover {
+  transform: translateY(-1px);
 }
 
 .brand-mark {
@@ -217,11 +223,53 @@
   transform: translateY(-1px);
 }
 
+.language-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(116, 135, 126, 0.11);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 12px 34px rgba(96, 112, 102, 0.065);
+}
+
+.language-switch button {
+  min-width: 72px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #758079;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.language-switch button:hover {
+  color: #303a36;
+  transform: translateY(-1px);
+}
+
+.language-switch button.is-active {
+  background: linear-gradient(135deg, rgba(184, 235, 176, 0.88), rgba(200, 239, 255, 0.88));
+  color: #31513a;
+}
+
 .hero {
   display: grid;
   min-height: 58vh;
   align-content: center;
   padding: 56px 0 70px;
+}
+
+.hero .eyebrow {
+  animation: fadeInUp 620ms ease 90ms both;
 }
 
 .eyebrow {
@@ -241,6 +289,7 @@
   font-weight: 560;
   line-height: 1.12;
   letter-spacing: -0.045em;
+  animation: fadeInUp 660ms ease 150ms both;
 }
 
 .hero-text {
@@ -249,6 +298,7 @@
   color: #69766f;
   font-size: clamp(1.02rem, 1.8vw, 1.22rem);
   line-height: 1.85;
+  animation: fadeInUp 660ms ease 220ms both;
 }
 
 .hero-actions {
@@ -256,6 +306,7 @@
   flex-wrap: wrap;
   gap: 14px;
   margin-top: 32px;
+  animation: fadeInUp 660ms ease 290ms both;
 }
 
 .button {
@@ -354,6 +405,7 @@
   margin-top: 52px;
   padding: 14px 18px;
   color: #5f6d65;
+  animation: fadeInUp 660ms ease 360ms both;
 }
 
 .hero-note p {
@@ -370,6 +422,7 @@
 
 .section {
   padding: 56px 0;
+  animation: fadeInSoft 620ms ease 260ms both;
 }
 
 .section-heading {
@@ -419,6 +472,23 @@
     box-shadow 180ms ease,
     border-color 180ms ease,
     background 180ms ease;
+  animation: fadeInUp 620ms ease both;
+}
+
+.project-card:nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.project-card:nth-child(2) {
+  animation-delay: 140ms;
+}
+
+.project-card:nth-child(3) {
+  animation-delay: 200ms;
+}
+
+.project-card:nth-child(4) {
+  animation-delay: 260ms;
 }
 
 .project-card::before {
@@ -546,6 +616,11 @@
   position: relative;
   overflow: hidden;
   padding: 32px;
+  animation: fadeInUp 620ms ease both;
+}
+
+.contact-card {
+  animation-delay: 120ms;
 }
 
 .about-card::after,
@@ -588,6 +663,28 @@
   font-size: 0.92rem;
 }
 
+@keyframes fadeInSoft {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 760px) {
   .page {
     padding: 20px;
@@ -596,6 +693,14 @@
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .language-switch {
+    width: 100%;
+  }
+
+  .language-switch button {
+    flex: 1;
   }
 
   .nav {
