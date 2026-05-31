@@ -15,7 +15,7 @@
     linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 250, 245, 0.24)),
     #fffaf6;
   background-size: 118% 118%, 116% 116%, 120% 120%, 100% 100%, auto;
-  animation: backgroundBreath 26s ease-in-out infinite alternate;
+  animation: backgroundBreath 110s ease-in-out infinite alternate;
 }
 
 .page::before {
@@ -44,7 +44,7 @@
     radial-gradient(circle, rgba(196, 153, 185, 0.12) 1px, transparent 1px);
   background-size: 34px 34px, 58px 58px;
   background-position: 0 0, 18px 22px;
-  animation: dotDrift 34s linear infinite;
+  animation: dotDrift 140s linear infinite;
 }
 
 .orb {
@@ -62,7 +62,7 @@
   left: 8%;
   top: 18%;
   background: rgba(178, 226, 194, 0.34);
-  animation: floatOne 28s ease-in-out infinite alternate;
+  animation: floatOne 115s ease-in-out infinite alternate;
 }
 
 .orb-two {
@@ -71,7 +71,7 @@
   right: 10%;
   top: 32%;
   background: rgba(201, 225, 247, 0.36);
-  animation: floatTwo 32s ease-in-out infinite alternate;
+  animation: floatTwo 125s ease-in-out infinite alternate;
 }
 
 .orb-three {
@@ -80,7 +80,7 @@
   left: 20%;
   bottom: 12%;
   background: rgba(242, 206, 228, 0.34);
-  animation: floatThree 30s ease-in-out infinite alternate;
+  animation: floatThree 120s ease-in-out infinite alternate;
 }
 
 .orb-one::before,
