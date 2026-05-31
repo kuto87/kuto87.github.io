@@ -414,3 +414,149 @@
     flex-direction: column;
   }
 }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatSoft {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.03);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes breathe87 {
+  0% {
+    opacity: 0.06;
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    opacity: 0.095;
+    transform: translateY(-8px) scale(1.015);
+  }
+
+  100% {
+    opacity: 0.06;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.site-header {
+  animation: fadeUp 700ms ease both;
+}
+
+.hero .eyebrow {
+  animation: fadeUp 700ms ease both;
+  animation-delay: 120ms;
+}
+
+.hero h1 {
+  animation: fadeUp 760ms ease both;
+  animation-delay: 220ms;
+}
+
+.hero-text {
+  animation: fadeUp 760ms ease both;
+  animation-delay: 340ms;
+}
+
+.hero-actions {
+  animation: fadeUp 760ms ease both;
+  animation-delay: 440ms;
+}
+
+.hero-note {
+  animation: fadeUp 760ms ease both;
+  animation-delay: 560ms;
+}
+
+.orb-one {
+  animation: floatSoft 8s ease-in-out infinite;
+}
+
+.orb-two {
+  animation: floatSoft 10s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.orb-three {
+  animation: floatSoft 9s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+.page::before {
+  animation: breathe87 9s ease-in-out infinite;
+}
+
+.project-card {
+  animation: cardAppear 700ms ease both;
+}
+
+.project-card:nth-child(1) {
+  animation-delay: 80ms;
+}
+
+.project-card:nth-child(2) {
+  animation-delay: 160ms;
+}
+
+.project-card:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.project-card:nth-child(4) {
+  animation-delay: 320ms;
+}
+
+.about-card,
+.contact-card {
+  animation: cardAppear 720ms ease both;
+}
+
+.about-card {
+  animation-delay: 120ms;
+}
+
+.contact-card {
+  animation-delay: 220ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}
