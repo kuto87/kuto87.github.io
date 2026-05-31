@@ -53,7 +53,7 @@ const copy = {
     contact: {
       eyebrow: 'Contact',
       title: 'GitHubとXにいます',
-      text: 'コードはGitHubに、日々のことや制作のメモはXに少しずつ置いていきます。',
+      text: 'GitHubとXにいます。コードや制作のメモなどを、少しずつ置いていきます。',
     },
     status: {
       Live: '公開中',
@@ -88,7 +88,7 @@ const copy = {
     contact: {
       eyebrow: 'Contact',
       title: 'Find me on GitHub and X',
-      text: 'Code lives on GitHub, while daily notes and making logs are posted little by little on X.',
+      text: 'You can find me on GitHub and X, where I share code, projects, and small making notes.',
     },
     status: {
       Live: 'Live',
