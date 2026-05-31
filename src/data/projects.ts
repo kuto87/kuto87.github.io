@@ -17,7 +17,7 @@ export const projects: Project[] = [
     title: 'break-reactor',
     description: {
       ja: 'ブロック崩しをベースに、強化・コイン・ボス戦っぽい流れを入れたゲームです。',
-      en: 'A block-breaking game with upgrades, coins, and a boss-like game flow.',
+      en: 'A block-breaking game with upgrades, coins, and boss-like stages.',
     },
     tags: {
       ja: ['Game', 'JavaScript', 'GitHub Pages'],
@@ -30,7 +30,7 @@ export const projects: Project[] = [
     title: 'branch-canvas',
     description: {
       ja: '考えごとや選択肢を、枝分かれのように残していくための小さなWebアプリです。',
-      en: 'A small web app for keeping ideas and choices in a branching canvas.',
+      en: 'A small web app for keeping ideas and choices as a branching map.',
     },
     tags: {
       ja: ['React', 'Firebase', 'アイデア整理'],
@@ -43,7 +43,7 @@ export const projects: Project[] = [
     title: 'ctx-ledger',
     description: {
       ja: 'AIに渡すための文脈やメモを、整理して扱いやすくするためのツールです。',
-      en: 'A tool for organizing context notes so they are easier to hand to AI agents.',
+      en: 'A tool for organizing context notes so they are easier to pass to AI agents.',
     },
     tags: {
       ja: ['Python', 'AI', 'CLI'],

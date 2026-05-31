@@ -27,7 +27,7 @@ const projectStatusLabels = {
 const copy = {
   ja: {
     nav: {
-      works: 'Works',
+      projects: 'Projects',
       about: 'About',
     },
     languageLabel: '表示言語',
@@ -41,8 +41,8 @@ const copy = {
       action: '作ったものを見る',
       note: 'React / Python / Firebase / small tools',
     },
-    works: {
-      eyebrow: 'Works',
+    projects: {
+      eyebrow: 'Projects',
       title: '作ったもの',
     },
     about: {
@@ -62,7 +62,7 @@ const copy = {
   },
   en: {
     nav: {
-      works: 'Works',
+      projects: 'Projects',
       about: 'About',
     },
     languageLabel: 'Language',
@@ -73,16 +73,16 @@ const copy = {
         'Web apps, games, automation tools, and small experiments.',
         'I am learning programming by turning ideas into tiny usable things.',
       ],
-      action: 'View works',
+      action: 'View projects',
       note: 'React / Python / Firebase / small tools',
     },
-    works: {
-      eyebrow: 'Works',
-      title: 'Works',
+    projects: {
+      eyebrow: 'Projects',
+      title: 'Projects',
     },
     about: {
       eyebrow: 'About',
-      title: 'A small making space by Kuto.',
+      title: 'A small project space by Kuto.',
       text: 'I am learning programming while making web apps, games, automation tools, and other small projects. Some are still experiments, and this site keeps them together in a relaxed way.',
     },
     contact: {
@@ -154,7 +154,7 @@ function App() {
         </a>
 
         <nav className="nav">
-          <a href="#projects">{t.nav.works}</a>
+          <a href="#projects">{t.nav.projects}</a>
           <a href="#about">{t.nav.about}</a>
           {socialLinks.map((link) => (
             <a href={link.href} key={link.label} target="_blank" rel="noreferrer">
@@ -225,8 +225,8 @@ function App() {
 
       <section className="section" id="projects">
         <div className="section-heading">
-          <p className="eyebrow">{t.works.eyebrow}</p>
-          <h2>{t.works.title}</h2>
+          <p className="eyebrow">{t.projects.eyebrow}</p>
+          <h2>{t.projects.title}</h2>
         </div>
 
         <div className="project-grid">
