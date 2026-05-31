@@ -64,17 +64,19 @@ function App() {
       <section className="hero">
         <p className="eyebrow">Kyoto, Japan</p>
 
-        <h1>
-          Small tools,
-          <br />
-          React apps,
-          <br />
-          and quiet experiments.
-        </h1>
+      <h1>
+        small things,
+        <br />
+        quietly
+        <br />
+        put together.
+      </h1>
 
-        <p className="hero-text">
-          A small place for things I build, test, and quietly improve.
-        </p>
+      <p className="hero-text">
+        Web, games, automation, and small ideas —
+        <br />
+        kept light, useful, and a little playful.
+      </p>
 
         <div className="hero-actions">
           <a className="button primary" href="#projects">
@@ -88,18 +90,17 @@ function App() {
           >
             GitHub
           </a>
-        </div>
+        </div><h2>Selected things</h2>
 
         <div className="soft-card hero-note">
           <span className="note-dot" />
-          <p>Python / React / Firebase / Automation</p>
-        </div>
+          <p>React / Python / Firebase / tiny utilities</p>        </div>
       </section>
 
       <section className="section" id="projects">
         <div className="section-heading">
           <p className="eyebrow">Projects</p>
-          <h2>Things I made</h2>
+          <h2>Selected things</h2>
         </div>
 
         <div className="project-grid">
@@ -131,17 +132,17 @@ function App() {
       <section className="section about-section" id="about">
         <div className="about-card">
           <p className="eyebrow">About</p>
-          <h2>ゆるく作って、少しずつ置いていく場所。</h2>
+          <h2>作ったものを、静かに置いておく場所。</h2>
           <p>
-            I like building small tools, web apps, games, and automation
-            experiments. This site is a soft home for those little projects.
+            I make small web apps, games, and automation tools.
+            Some are useful, some are just experiments — all of them started from curiosity.
           </p>
         </div>
 
         <div className="contact-card">
           <p className="eyebrow">Contact</p>
-          <h2>Find me on GitHub</h2>
-          <p>Public projects and experiments are collected there.</p>
+          <h2>Elsewhere</h2>
+          <p>Most of the code lives on GitHub.</p>
           <a
             className="button primary"
             href="https://github.com/kuto87"
