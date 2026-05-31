@@ -15,10 +15,13 @@ function App() {
         </a>
 
         <nav className="nav">
-          <a href="#projects">Projects</a>
+          <a href="#projects">Works</a>
           <a href="#about">About</a>
           <a href="https://github.com/kuto87" target="_blank" rel="noreferrer">
             GitHub
+          </a>
+          <a href="https://x.com/rinrin1600" target="_blank" rel="noreferrer">
+            X
           </a>
         </nav>
       </header>
@@ -27,43 +30,51 @@ function App() {
         <p className="eyebrow">Kyoto, Japan</p>
 
         <h1>
-          small things,
+          小さく作ったものを、
           <br />
-          quietly
+          少しずつ
           <br />
-          put together.
+          置いています。
         </h1>
 
         <p className="hero-text">
-          Web, games, automation, and small ideas —
+          Webアプリ、ゲーム、自動化ツールなど。
           <br />
-          kept light, useful, and a little playful.
+          プログラミングを勉強しながら、気になったものを形にしています。
         </p>
 
         <div className="hero-actions">
           <a className="button primary" href="#projects">
-            View projects
+            作ったものを見る
           </a>
           <a
-            className="button ghost"
+            className="button github"
             href="https://github.com/kuto87"
             target="_blank"
             rel="noreferrer"
           >
             GitHub
           </a>
+          <a
+            className="button x"
+            href="https://x.com/rinrin1600"
+            target="_blank"
+            rel="noreferrer"
+          >
+            X
+          </a>
         </div>
 
         <div className="soft-card hero-note">
           <span className="note-dot" />
-          <p>React / Python / Firebase / tiny utilities</p>
+          <p>React / Python / Firebase / small tools</p>
         </div>
       </section>
 
       <section className="section" id="projects">
         <div className="section-heading">
-          <p className="eyebrow">Projects</p>
-          <h2>Selected things</h2>
+          <p className="eyebrow">Works</p>
+          <h2>作ったもの</h2>
         </div>
 
         <div className="project-grid">
@@ -77,7 +88,7 @@ function App() {
             >
               <div className="project-top">
                 <h3>{project.title}</h3>
-                <span>{project.status}</span>
+                <span>{project.status === 'Live' ? '公開中' : 'GitHub'}</span>
               </div>
 
               <p>{project.description}</p>
@@ -95,25 +106,39 @@ function App() {
       <section className="section about-section" id="about">
         <div className="about-card">
           <p className="eyebrow">About</p>
-          <h2>作ったものを、静かに置いておく場所。</h2>
+          <h2>くとうさの小さな制作置き場。</h2>
           <p>
-            I make small web apps, games, and automation tools. Some are useful,
-            some are just experiments — all of them started from curiosity.
+            プログラミングを勉強しながら、Webアプリやゲーム、
+            自動化ツールなどを少しずつ作っています。まだ試作中のものも含めて、
+            ここにゆるくまとめていきます。
           </p>
         </div>
 
         <div className="contact-card">
           <p className="eyebrow">Contact</p>
-          <h2>Elsewhere</h2>
-          <p>Most of the code lives on GitHub.</p>
-          <a
-            className="button primary"
-            href="https://github.com/kuto87"
-            target="_blank"
-            rel="noreferrer"
-          >
-            @kuto87
-          </a>
+          <h2>GitHubとXにいます</h2>
+          <p>
+            コードはGitHubに、日々のことや制作のメモはXに少しずつ置いていきます。
+          </p>
+
+          <div className="link-actions">
+            <a
+              className="button github"
+              href="https://github.com/kuto87"
+              target="_blank"
+              rel="noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              className="button x"
+              href="https://x.com/rinrin1600"
+              target="_blank"
+              rel="noreferrer"
+            >
+              X
+            </a>
+          </div>
         </div>
       </section>
 
