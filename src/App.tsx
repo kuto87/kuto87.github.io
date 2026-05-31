@@ -133,6 +133,11 @@ function detectDesignMode(): DesignMode {
     return 'a'
   }
 
+  const urlDesignMode = new URLSearchParams(window.location.search).get('style')
+  if (designModes.includes(urlDesignMode as DesignMode)) {
+    return urlDesignMode as DesignMode
+  }
+
   const savedDesignMode = (() => {
     try {
       return window.localStorage?.getItem(designStorageKey)
@@ -148,6 +153,18 @@ function App() {
   const [language, setLanguage] = useState<Language>(detectLanguage)
   const [designMode, setDesignMode] = useState<DesignMode>(detectDesignMode)
   const t = copy[language]
+
+  const changeDesignMode = (mode: DesignMode) => {
+    setDesignMode(mode)
+
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const url = new URL(window.location.href)
+    url.searchParams.set('style', mode)
+    window.history.replaceState(null, '', url)
+  }
 
   const languageOptions = useMemo(
     () =>
@@ -214,6 +231,25 @@ function App() {
         </div>
       </header>
 
+      <div className="style-dock">
+        <div className="design-switch soft-card" aria-label={t.designLabel}>
+          <span>{t.designLabel}</span>
+          <div>
+            {designModes.map((mode) => (
+              <button
+                aria-pressed={designMode === mode}
+                className={designMode === mode ? 'is-active' : undefined}
+                key={mode}
+                onClick={() => changeDesignMode(mode)}
+                type="button"
+              >
+                {mode.toUpperCase()}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <section className="hero">
         <p className="eyebrow">{t.hero.eyebrow}</p>
 
@@ -256,23 +292,6 @@ function App() {
           {t.hero.topics.map((topic) => (
             <span key={topic}>{topic}</span>
           ))}
-        </div>
-
-        <div className="design-switch soft-card" aria-label={t.designLabel}>
-          <span>{t.designLabel}</span>
-          <div>
-            {designModes.map((mode) => (
-              <button
-                aria-pressed={designMode === mode}
-                className={designMode === mode ? 'is-active' : undefined}
-                key={mode}
-                onClick={() => setDesignMode(mode)}
-                type="button"
-              >
-                {mode.toUpperCase()}
-              </button>
-            ))}
-          </div>
         </div>
 
         <div className="soft-card hero-note">
