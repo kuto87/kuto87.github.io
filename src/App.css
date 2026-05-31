@@ -1230,6 +1230,305 @@
   margin-top: 26px;
 }
 
+.page[data-theme='b']::before {
+  color: rgba(154, 222, 194, 0.07);
+}
+
+.page[data-theme='b'] {
+  color: #eaf4ed;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(72, 149, 121, 0.32) 0 16%, transparent 34%),
+    radial-gradient(circle at 78% 10%, rgba(70, 116, 154, 0.24) 0 18%, transparent 38%),
+    radial-gradient(circle at 22% 78%, rgba(169, 102, 136, 0.18) 0 16%, transparent 36%),
+    linear-gradient(135deg, #101916, #17231f 54%, #101a1d);
+  background-repeat: no-repeat;
+}
+
+.page[data-theme='b']::after {
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(191, 231, 211, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(191, 231, 211, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.page[data-theme='b'] .orb {
+  opacity: 0.24;
+}
+
+.page[data-theme='b'] .site-header {
+  max-width: 1180px;
+  padding: 12px 16px;
+  border: 1px solid rgba(192, 231, 212, 0.13);
+  border-radius: 18px;
+  background: rgba(20, 32, 28, 0.72);
+  box-shadow: 0 24px 80px rgba(10, 18, 16, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.page[data-theme='b'] .language-switch {
+  border-color: rgba(192, 231, 212, 0.13);
+  background: rgba(22, 36, 32, 0.86);
+}
+
+.page[data-theme='b'] .brand,
+.page[data-theme='b'] .nav a,
+.page[data-theme='b'] .hero h1,
+.page[data-theme='b'] .section-heading h2,
+.page[data-theme='b'] .about-card h2,
+.page[data-theme='b'] .contact-card h2,
+.page[data-theme='b'] .project-top h3 {
+  color: #eaf4ed;
+}
+
+.page[data-theme='b'] .brand-mark {
+  border-color: rgba(157, 222, 194, 0.22);
+  background: rgba(29, 48, 42, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(234, 244, 237, 0.04);
+  color: #9de0c2;
+}
+
+.page[data-theme='b'] .eyebrow,
+.page[data-theme='b'] .project-title p {
+  color: #9de0c2;
+}
+
+.page[data-theme='b'] .hero-text,
+.page[data-theme='b'] .section-heading > p,
+.page[data-theme='b'] .project-card p,
+.page[data-theme='b'] .about-card p,
+.page[data-theme='b'] .contact-card p,
+.page[data-theme='b'] .footer,
+.page[data-theme='b'] .design-switch > span {
+  color: #b7c7be;
+}
+
+.page[data-theme='b'] .hero-topics,
+.page[data-theme='b'] .soft-card,
+.page[data-theme='b'] .project-card,
+.page[data-theme='b'] .about-card,
+.page[data-theme='b'] .contact-card {
+  border-color: rgba(157, 222, 194, 0.16);
+  background: rgba(20, 32, 28, 0.76);
+  box-shadow: 0 24px 80px rgba(10, 18, 16, 0.28);
+}
+
+.page[data-theme='b'] .hero-topics::before {
+  content: 'stack.config';
+  color: #8abda5;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.page[data-theme='b'] .hero-topics span,
+.page[data-theme='b'] .tags span,
+.page[data-theme='b'] .design-switch button,
+.page[data-theme='b'] .language-switch button {
+  background: rgba(33, 52, 46, 0.92);
+  color: #c7d8cf;
+}
+
+.page[data-theme='b'] .project-card > p {
+  background: rgba(31, 49, 43, 0.86);
+}
+
+.page[data-theme='b'] .project-top > span {
+  background: rgba(107, 189, 151, 0.18);
+  color: #9de0c2;
+}
+
+.page[data-theme='b'] .button.github,
+.page[data-theme='b'] .button.x {
+  border-color: rgba(157, 222, 194, 0.14);
+  background: rgba(33, 52, 46, 0.92);
+  color: #eaf4ed;
+}
+
+.page[data-theme='c'] {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 218, 236, 0.58) 0 16%, transparent 36%),
+    radial-gradient(circle at 80% 16%, rgba(221, 236, 255, 0.56) 0 18%, transparent 38%),
+    radial-gradient(circle at 42% 90%, rgba(215, 242, 219, 0.46) 0 16%, transparent 34%),
+    repeating-linear-gradient(0deg, rgba(98, 72, 82, 0.025) 0 1px, transparent 1px 24px),
+    #fff9fc;
+}
+
+.page[data-theme='c'] .site-header {
+  max-width: 1080px;
+  padding: 18px 0;
+}
+
+.page[data-theme='c'] .hero {
+  position: relative;
+}
+
+.page[data-theme='c'] .hero::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  z-index: -1;
+  width: min(720px, 82vw);
+  aspect-ratio: 1;
+  border: 1px solid rgba(236, 172, 207, 0.2);
+  border-radius: 42% 58% 50% 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.7), transparent 30%),
+    rgba(255, 255, 255, 0.25);
+  transform: translate(-50%, -50%) rotate(-8deg);
+  animation: scrapbookTurn 24s ease-in-out infinite alternate;
+}
+
+.page[data-theme='c'] .brand-mark,
+.page[data-theme='c'] .project-card,
+.page[data-theme='c'] .about-card,
+.page[data-theme='c'] .contact-card {
+  border-radius: 30px;
+}
+
+.page[data-theme='c'] .project-card:nth-child(odd) {
+  transform: rotate(-1.2deg);
+}
+
+.page[data-theme='c'] .project-card:nth-child(even) {
+  transform: rotate(1.2deg);
+}
+
+.page[data-theme='c'] .project-card:hover {
+  transform: translateY(-4px) rotate(0deg);
+}
+
+.page[data-theme='c'] .project-title {
+  justify-content: center;
+}
+
+.page[data-theme='c'] .project-title p::before {
+  display: none;
+}
+
+.page[data-theme='c'] .project-top > span {
+  margin-top: 8px;
+}
+
+.page[data-theme='c'] .about-card,
+.page[data-theme='c'] .contact-card {
+  border-style: dashed;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 250, 253, 0.72));
+}
+
+.page[data-theme='d'] {
+  background:
+    linear-gradient(rgba(92, 118, 82, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92, 118, 82, 0.055) 1px, transparent 1px),
+    radial-gradient(circle at 84% 18%, rgba(205, 235, 197, 0.54) 0 18%, transparent 40%),
+    radial-gradient(circle at 8% 80%, rgba(255, 226, 214, 0.38) 0 16%, transparent 36%),
+    #fbfff5;
+  background-size: 56px 56px, 56px 56px, auto, auto, auto;
+}
+
+.page[data-theme='d'] .site-header,
+.page[data-theme='d'] .project-card,
+.page[data-theme='d'] .about-card,
+.page[data-theme='d'] .contact-card,
+.page[data-theme='d'] .soft-card {
+  border-color: rgba(92, 118, 82, 0.16);
+  box-shadow: none;
+}
+
+.page[data-theme='d'] .site-header {
+  max-width: 1160px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(92, 118, 82, 0.16);
+}
+
+.page[data-theme='d'] .hero-topics span {
+  position: relative;
+  overflow: hidden;
+}
+
+.page[data-theme='d'] .hero-topics span::after {
+  content: '';
+  width: 42px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(183, 216, 125, 0.42);
+}
+
+.page[data-theme='d'] .project-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(249, 253, 242, 0.68));
+}
+
+.page[data-theme='d'] .project-card::before {
+  content: '{ }';
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  color: rgba(114, 138, 82, 0.14);
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.page[data-theme='d'] .project-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page[data-theme='e'] {
+  letter-spacing: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 280px),
+    linear-gradient(90deg, rgba(92, 117, 132, 0.075) 1px, transparent 1px),
+    radial-gradient(circle at 78% 8%, rgba(188, 224, 248, 0.52) 0 18%, transparent 42%),
+    #f7fbff;
+  background-size: auto, 96px 96px, auto, auto;
+}
+
+.page[data-theme='e'] .site-header {
+  max-width: none;
+  border-bottom: 1px solid rgba(92, 117, 132, 0.12);
+}
+
+.page[data-theme='e'] .hero,
+.page[data-theme='e'] .section,
+.page[data-theme='e'] .footer {
+  max-width: 1240px;
+}
+
+.page[data-theme='e'] .project-card,
+.page[data-theme='e'] .about-card,
+.page[data-theme='e'] .contact-card,
+.page[data-theme='e'] .soft-card {
+  border-color: rgba(92, 117, 132, 0.12);
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: none;
+}
+
+.page[data-theme='e'] .project-card {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.page[data-theme='e'] .project-card:hover {
+  background: rgba(255, 255, 255, 0.48);
+  transform: translateX(6px);
+}
+
+.page[data-theme='e'] .project-top > span {
+  justify-self: end;
+}
+
+.page[data-theme='e'] .tags span {
+  border: 1px solid rgba(92, 117, 132, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -1287,6 +1586,18 @@
       4vw 58vh,
       0 0,
       0 0;
+  }
+}
+
+@keyframes scrapbookTurn {
+  from {
+    border-radius: 42% 58% 50% 50%;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(0.98);
+  }
+
+  to {
+    border-radius: 56% 44% 48% 52%;
+    transform: translate(-50%, -50%) rotate(5deg) scale(1.02);
   }
 }
 
