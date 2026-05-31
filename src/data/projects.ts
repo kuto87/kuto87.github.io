@@ -1,5 +1,10 @@
 export type Project = {
   title: string
+  mark: string
+  kind: {
+    ja: string
+    en: string
+  }
   description: {
     ja: string
     en: string
@@ -15,6 +20,11 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: 'break-reactor',
+    mark: '01',
+    kind: {
+      ja: 'ゲーム',
+      en: 'Game',
+    },
     description: {
       ja: 'ブロック崩しをベースに、強化・コイン・ボス戦っぽい流れを入れたゲームです。',
       en: 'A block-breaking game with upgrades, coins, and boss-like stages.',
@@ -28,6 +38,11 @@ export const projects: Project[] = [
   },
   {
     title: 'branch-canvas',
+    mark: '02',
+    kind: {
+      ja: 'Webアプリ',
+      en: 'Web app',
+    },
     description: {
       ja: '考えごとや選択肢を、枝分かれのように残していくための小さなWebアプリです。',
       en: 'A small web app for keeping ideas and choices as a branching map.',
@@ -41,6 +56,11 @@ export const projects: Project[] = [
   },
   {
     title: 'ctx-ledger',
+    mark: '03',
+    kind: {
+      ja: 'ツール',
+      en: 'Tool',
+    },
     description: {
       ja: 'AIに渡すための文脈やメモを、整理して扱いやすくするためのツールです。',
       en: 'A tool for organizing context notes so they are easier to pass to AI agents.',
@@ -54,6 +74,11 @@ export const projects: Project[] = [
   },
   {
     title: 'plc-factory-clicker',
+    mark: '04',
+    kind: {
+      ja: '試作',
+      en: 'Prototype',
+    },
     description: {
       ja: '工場やPLCっぽい雰囲気をテーマにした、小さなクリックゲームの試作です。',
       en: 'A small clicker game prototype with a factory and PLC-inspired mood.',

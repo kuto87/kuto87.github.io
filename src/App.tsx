@@ -33,22 +33,24 @@ const copy = {
     languageLabel: '表示言語',
     hero: {
       eyebrow: 'Kyoto, Japan',
-      title: ['小さく作ったものを、', '少しずつ', '置いています。'],
+      title: ['作って、試して、', '少しずつ', '置いています。'],
       text: [
         'Webアプリ、ゲーム、自動化ツールなど。',
-        'プログラミングを勉強しながら、気になったものを形にしています。',
+        '勉強しながら作ったものを、気楽に見られる形でまとめています。',
       ],
       action: '作ったものを見る',
       note: 'React / Python / Firebase / small tools',
+      topics: ['Webアプリ', 'ゲーム', '自動化', '学習ログ'],
     },
     projects: {
       eyebrow: 'Projects',
       title: '作ったもの',
+      lead: '完成したものも、試作中のものも。手を動かしながら覚えたことを、小さなプロジェクトとして置いています。',
     },
     about: {
       eyebrow: 'About',
       title: 'くとうさの小さな制作置き場。',
-      text: 'プログラミングを勉強しながら、Webアプリやゲーム、自動化ツールなどを少しずつ作っています。まだ試作中のものも含めて、ここにゆるくまとめていきます。',
+      text: 'プログラミングを勉強しながら、Webアプリやゲーム、自動化ツールなどを少しずつ作っています。きれいに作り切ることだけでなく、試して残すことも大事にしています。',
     },
     contact: {
       eyebrow: 'Contact',
@@ -68,22 +70,24 @@ const copy = {
     languageLabel: 'Language',
     hero: {
       eyebrow: 'Kyoto, Japan',
-      title: ['Small things I make,', 'kept here', 'little by little.'],
+      title: ['Making, testing,', 'and keeping', 'small things here.'],
       text: [
         'Web apps, games, automation tools, and small experiments.',
-        'I am learning programming by turning ideas into tiny usable things.',
+        'A soft place for projects I build while learning programming.',
       ],
       action: 'View projects',
       note: 'React / Python / Firebase / small tools',
+      topics: ['Web apps', 'Games', 'Automation', 'Learning notes'],
     },
     projects: {
       eyebrow: 'Projects',
       title: 'Projects',
+      lead: 'Finished pieces, prototypes, and small tools. Each one is a note from learning by making.',
     },
     about: {
       eyebrow: 'About',
       title: 'A small project space by Kuto.',
-      text: 'I am learning programming while making web apps, games, automation tools, and other small projects. Some are still experiments, and this site keeps them together in a relaxed way.',
+      text: 'I am learning programming while making web apps, games, automation tools, and other small projects. This site keeps both finished pieces and experiments together in a relaxed way.',
     },
     contact: {
       eyebrow: 'Contact',
@@ -217,6 +221,12 @@ function App() {
           ))}
         </div>
 
+        <div className="hero-topics" aria-label="Project themes">
+          {t.hero.topics.map((topic) => (
+            <span key={topic}>{topic}</span>
+          ))}
+        </div>
+
         <div className="soft-card hero-note">
           <span className="note-dot" />
           <p>{t.hero.note}</p>
@@ -225,8 +235,11 @@ function App() {
 
       <section className="section" id="projects">
         <div className="section-heading">
-          <p className="eyebrow">{t.projects.eyebrow}</p>
-          <h2>{t.projects.title}</h2>
+          <div>
+            <p className="eyebrow">{t.projects.eyebrow}</p>
+            <h2>{t.projects.title}</h2>
+          </div>
+          <p>{t.projects.lead}</p>
         </div>
 
         <div className="project-grid">
@@ -239,7 +252,13 @@ function App() {
               rel="noreferrer"
             >
               <div className="project-top">
-                <h3>{project.title}</h3>
+                <div className="project-title">
+                  <span className="project-mark">{project.mark}</span>
+                  <div>
+                    <p>{project.kind[language]}</p>
+                    <h3>{project.title}</h3>
+                  </div>
+                </div>
                 <span>{t.status[project.status] ?? projectStatusLabels[project.status]}</span>
               </div>
 

@@ -329,6 +329,37 @@
   animation: fadeInUp 660ms ease 290ms both;
 }
 
+.hero-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+  animation: fadeInUp 660ms ease 330ms both;
+}
+
+.hero-topics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(116, 135, 126, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.56);
+  color: #748078;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 10px 28px rgba(96, 112, 102, 0.045);
+}
+
+.hero-topics span::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(127, 191, 144, 0.68);
+  box-shadow: 0 0 0 5px rgba(169, 228, 158, 0.12);
+}
+
 .button {
   position: relative;
   display: inline-flex;
@@ -453,6 +484,13 @@
   margin-bottom: 24px;
 }
 
+.section-heading > p {
+  max-width: 500px;
+  margin: 0;
+  color: #7a857e;
+  line-height: 1.8;
+}
+
 .section-heading h2,
 .about-card h2,
 .contact-card h2 {
@@ -525,6 +563,39 @@
   align-items: start;
   justify-content: space-between;
   gap: 16px;
+}
+
+.project-title {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+}
+
+.project-mark {
+  display: grid;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid rgba(127, 191, 144, 0.16);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.9), transparent 28%),
+    linear-gradient(135deg, rgba(235, 250, 238, 0.82), rgba(231, 247, 255, 0.72));
+  color: #7ba888;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.project-title p {
+  margin: 0 0 6px;
+  color: #8b9790;
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .project-top h3 {
@@ -799,6 +870,10 @@
     flex-direction: column;
   }
 
+  .section-heading > p {
+    max-width: none;
+  }
+
   .project-card,
   .about-card,
   .contact-card {
@@ -820,6 +895,19 @@
   .hero-actions .button,
   .link-actions .button {
     width: 100%;
+  }
+
+  .hero-topics {
+    gap: 8px;
+  }
+
+  .hero-topics span {
+    padding: 7px 10px;
+  }
+
+  .project-top {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
