@@ -14,6 +14,8 @@
     radial-gradient(circle at 50% 96%, rgba(255, 214, 235, 0.42), transparent 34%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(255, 250, 245, 0.24)),
     #fffaf6;
+  background-size: 118% 118%, 116% 116%, 120% 120%, 100% 100%, auto;
+  animation: backgroundBreath 26s ease-in-out infinite alternate;
 }
 
 .page::before {
@@ -42,6 +44,7 @@
     radial-gradient(circle, rgba(196, 153, 185, 0.12) 1px, transparent 1px);
   background-size: 34px 34px, 58px 58px;
   background-position: 0 0, 18px 22px;
+  animation: dotDrift 34s linear infinite;
 }
 
 .orb {
@@ -59,6 +62,7 @@
   left: 8%;
   top: 18%;
   background: rgba(178, 226, 194, 0.34);
+  animation: floatOne 28s ease-in-out infinite alternate;
 }
 
 .orb-two {
@@ -67,6 +71,7 @@
   right: 10%;
   top: 32%;
   background: rgba(201, 225, 247, 0.36);
+  animation: floatTwo 32s ease-in-out infinite alternate;
 }
 
 .orb-three {
@@ -75,6 +80,7 @@
   left: 20%;
   bottom: 12%;
   background: rgba(242, 206, 228, 0.34);
+  animation: floatThree 30s ease-in-out infinite alternate;
 }
 
 .orb-one::before,
@@ -686,6 +692,66 @@
   }
 }
 
+@keyframes backgroundBreath {
+  from {
+    background-position:
+      0% 0%,
+      100% 0%,
+      50% 100%,
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      6% 4%,
+      94% 5%,
+      48% 94%,
+      0 0,
+      0 0;
+  }
+}
+
+@keyframes dotDrift {
+  from {
+    background-position: 0 0, 18px 22px;
+  }
+
+  to {
+    background-position: 34px 34px, 76px 80px;
+  }
+}
+
+@keyframes floatOne {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(14px, -18px, 0) scale(1.03);
+  }
+}
+
+@keyframes floatTwo {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(-18px, 16px, 0) scale(1.025);
+  }
+}
+
+@keyframes floatThree {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(16px, 12px, 0) scale(1.035);
+  }
+}
+
 @media (max-width: 760px) {
   .page {
     padding: 20px;
@@ -779,6 +845,7 @@
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation: none !important;
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
