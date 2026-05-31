@@ -125,8 +125,8 @@ function App() {
   const languageOptions = useMemo(
     () =>
       [
-        { label: '日本語', value: 'ja' },
-        { label: 'English', value: 'en' },
+        { label: 'JP', value: 'ja' },
+        { label: 'EN', value: 'en' },
       ] as const,
     [],
   )
@@ -167,6 +167,7 @@ function App() {
           {languageOptions.map((option) => (
             <button
               aria-pressed={language === option.value}
+              aria-label={option.value === 'ja' ? '日本語' : 'English'}
               className={language === option.value ? 'is-active' : undefined}
               key={option.value}
               onClick={() => setLanguage(option.value)}

@@ -134,9 +134,9 @@
 }
 
 .site-header {
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: auto 1fr auto;
   gap: 24px;
   padding: 16px 0;
   animation: fadeInSoft 520ms ease both;
@@ -202,6 +202,7 @@
 .nav {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
 }
 
@@ -226,24 +227,24 @@
 .language-switch {
   display: inline-flex;
   flex: 0 0 auto;
-  gap: 4px;
-  padding: 4px;
+  gap: 3px;
+  padding: 3px;
   border: 1px solid rgba(116, 135, 126, 0.11);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.68);
-  box-shadow: 0 12px 34px rgba(96, 112, 102, 0.065);
+  box-shadow: 0 10px 26px rgba(96, 112, 102, 0.06);
 }
 
 .language-switch button {
-  min-width: 72px;
-  padding: 8px 12px;
+  min-width: 38px;
+  padding: 6px 9px;
   border: 0;
   border-radius: 999px;
   background: transparent;
   color: #758079;
   cursor: pointer;
   font: inherit;
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 750;
   transition:
     background 180ms ease,
@@ -691,16 +692,26 @@
   }
 
   .site-header {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    gap: 14px 16px;
+  }
+
+  .brand {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .language-switch {
-    width: 100%;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
   }
 
-  .language-switch button {
-    flex: 1;
+  .nav {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
   }
 
   .nav {
