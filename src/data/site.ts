@@ -53,18 +53,18 @@ export const designModes = [
   },
   {
     value: 'studio',
-    shortLabel: 'Studio',
+    shortLabel: 'Show',
     label: {
-      ja: 'Paper studio',
-      en: 'Paper studio',
+      ja: 'Showcase flow',
+      en: 'Showcase flow',
     },
   },
   {
     value: 'console',
-    shortLabel: 'Console',
+    shortLabel: 'Ops',
     label: {
-      ja: 'Console deck',
-      en: 'Console deck',
+      ja: 'Ops console',
+      en: 'Ops console',
     },
   },
 ] as const satisfies ReadonlyArray<{
