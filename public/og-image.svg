@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Kuto Lab</title>
+  <desc id="desc">A personal project index for kuto87.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fffaf6"/>
+      <stop offset="0.52" stop-color="#e9f8ee"/>
+      <stop offset="1" stop-color="#dff3ff"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#b8ebb0"/>
+      <stop offset="1" stop-color="#85cdf0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="164" cy="92" r="210" fill="#ffd6eb" opacity="0.5"/>
+  <circle cx="1032" cy="132" r="230" fill="#cce6ff" opacity="0.64"/>
+  <circle cx="260" cy="590" r="260" fill="#bcebcf" opacity="0.52"/>
+  <g opacity="0.3">
+    <path d="M0 94h1200M0 188h1200M0 282h1200M0 376h1200M0 470h1200M0 564h1200" stroke="#5d6f66" stroke-width="1"/>
+    <path d="M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630" stroke="#5d6f66" stroke-width="1"/>
+  </g>
+  <rect x="78" y="78" width="1044" height="474" rx="8" fill="#ffffff" fill-opacity="0.74" stroke="#8ba092" stroke-opacity="0.28"/>
+  <rect x="126" y="132" width="104" height="104" rx="8" fill="url(#mark)"/>
+  <text x="178" y="198" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800" fill="#2f4a35">87</text>
+  <text x="126" y="326" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="800" fill="#2f3835">Kuto Lab</text>
+  <text x="132" y="392" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="500" fill="#607069">Web apps, games, automation tools.</text>
+  <text x="132" y="452" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" fill="#85a58f">React / TypeScript / Python / Firebase</text>
+  <text x="920" y="494" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#607069">kuto87.github.io</text>
+</svg>
