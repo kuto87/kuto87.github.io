@@ -15,7 +15,7 @@ https://kuto87.github.io/
 - プロジェクトの公開状態、時期、学び、技術タグ
 - About
 - Contact
-- 3種類のデザインテーマ
+- Softデザイン
 - 日本語/英語表示
 - GitHub Pages による公開
 
@@ -45,10 +45,11 @@ npm run lint
 
 プロジェクト一覧やサイト文言は `src/data/site.ts` にまとめています。
 
-デザインは `src/App.css` の次の3テーマです。
+公開中のデザインは `soft` のみです。
 
 - `soft`: 既存の柔らかい個人サイト風
-- `studio`: 大きな見せ場とスクロール演出を持つショーケース風
-- `console`: ダッシュボード、ターミナル、モニター風
+
+一時的に外している候補として、`studio` と `console` の体験実装もコード上には残しています。
+復活させる場合は `src/App.tsx` の `enabledDesignModes` と設定UIを戻します。
 
 公開用のメタ情報、OG画像、サイトマップ、robots は `index.html` と `public/` にあります。

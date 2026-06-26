@@ -4,7 +4,6 @@ import './App.css'
 import heroImage from './assets/hero.png'
 import {
   copy,
-  designModes,
   designStorageKey,
   filterStorageKey,
   languageStorageKey,
@@ -19,13 +18,14 @@ import {
 
 const defaultDesignMode: DesignMode = 'soft'
 const defaultProjectFilter: ProjectFilter = 'all'
+const enabledDesignModes: DesignMode[] = ['soft']
 
 function isLanguage(value: string | null): value is Language {
   return value === 'ja' || value === 'en'
 }
 
 function isDesignMode(value: string | null): value is DesignMode {
-  return designModes.some((mode) => mode.value === value)
+  return enabledDesignModes.some((mode) => mode === value)
 }
 
 function isProjectFilter(value: string | null): value is ProjectFilter {
@@ -45,14 +45,6 @@ function writeStoredValue(key: string, value: string) {
     window.localStorage?.setItem(key, value)
   } catch {
     // The current page still reflects the selected setting when storage is unavailable.
-  }
-}
-
-function removeStoredValue(key: string) {
-  try {
-    window.localStorage?.removeItem(key)
-  } catch {
-    // Preference reset is best effort when storage is unavailable.
   }
 }
 
@@ -87,6 +79,16 @@ function detectDesignMode(): DesignMode {
 
   const savedDesignMode = readStoredValue(designStorageKey)
   return isDesignMode(savedDesignMode) ? savedDesignMode : defaultDesignMode
+}
+
+function clearDesignModeUrlParam() {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  if (new URLSearchParams(window.location.search).has('style')) {
+    updateUrl({ style: '' })
+  }
 }
 
 function detectProjectFilter(): ProjectFilter {
@@ -203,46 +205,6 @@ function Header({
         ))}
       </div>
     </header>
-  )
-}
-
-function SettingsDock({
-  designMode,
-  language,
-  onDesignModeChange,
-  onReset,
-}: {
-  designMode: DesignMode
-  language: Language
-  onDesignModeChange: (mode: DesignMode) => void
-  onReset: () => void
-}) {
-  const t = copy[language]
-
-  return (
-    <div className="style-dock">
-      <div className="design-switch soft-card" aria-label={t.designLabel}>
-        <span>{t.designLabel}</span>
-        <div>
-          {designModes.map((mode) => (
-            <button
-              aria-pressed={designMode === mode.value}
-              aria-label={mode.label[language]}
-              className={designMode === mode.value ? 'is-active' : undefined}
-              key={mode.value}
-              onClick={() => onDesignModeChange(mode.value)}
-              title={mode.label[language]}
-              type="button"
-            >
-              {mode.shortLabel}
-            </button>
-          ))}
-        </div>
-        <button className="reset-button" onClick={onReset} type="button">
-          {t.resetLabel}
-        </button>
-      </div>
-    </div>
   )
 }
 
@@ -768,7 +730,7 @@ function Experience({
 
 function App() {
   const [language, setLanguage] = useState<Language>(detectLanguage)
-  const [designMode, setDesignMode] = useState<DesignMode>(detectDesignMode)
+  const [designMode] = useState<DesignMode>(detectDesignMode)
   const [projectFilter, setProjectFilter] = useState<ProjectFilter>(detectProjectFilter)
   const t = copy[language]
   const projectsToShow = useMemo(() => getFilteredProjects(projectFilter), [projectFilter])
@@ -778,21 +740,6 @@ function App() {
   const changeLanguage = (nextLanguage: Language) => {
     setLanguage(nextLanguage)
     updateUrl({ lang: nextLanguage })
-  }
-
-  const changeDesignMode = (mode: DesignMode) => {
-    setDesignMode(mode)
-    updateUrl({ style: mode })
-  }
-
-  const resetPreferences = () => {
-    removeStoredValue(languageStorageKey)
-    removeStoredValue(designStorageKey)
-    removeStoredValue(filterStorageKey)
-    setLanguage('ja')
-    setDesignMode(defaultDesignMode)
-    setProjectFilter(defaultProjectFilter)
-    updateUrl({ lang: '', style: '' })
   }
 
   useEffect(() => {
@@ -806,6 +753,7 @@ function App() {
 
   useEffect(() => {
     writeStoredValue(designStorageKey, designMode)
+    clearDesignModeUrlParam()
   }, [designMode])
 
   useEffect(() => {
@@ -817,12 +765,6 @@ function App() {
       <div className="texture-layer" aria-hidden="true" />
 
       <Header language={language} onLanguageChange={changeLanguage} />
-      <SettingsDock
-        designMode={designMode}
-        language={language}
-        onDesignModeChange={changeDesignMode}
-        onReset={resetPreferences}
-      />
       <Experience
         designMode={designMode}
         filter={projectFilter}
