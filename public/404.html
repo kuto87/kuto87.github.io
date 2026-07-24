@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#f4f1e8">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <title>404 — KUTO</title>
+    <style>
+      * { box-sizing: border-box; }
+      :root { color: #111311; background: #f4f1e8; font-family: Inter, "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif; }
+      body { min-width: 320px; min-height: 100svh; margin: 0; padding: 24px; display: grid; place-items: center; }
+      main { width: min(100%, 920px); border: 2px solid #111311; background: #fffdf7; box-shadow: 10px 10px 0 #6847ff; }
+      .top { display: flex; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid #111311; font: 800 12px/1 ui-monospace, monospace; letter-spacing: .1em; }
+      .body { display: grid; grid-template-columns: .85fr 1.15fr; min-height: 430px; }
+      .number { display: grid; place-items: center; border-right: 1px solid #111311; color: #111311; background: #c7ff4a; font-size: clamp(7rem, 22vw, 14rem); font-weight: 900; letter-spacing: -.12em; line-height: .8; }
+      .copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(34px, 7vw, 72px); }
+      h1 { margin: 0; font-size: clamp(2.4rem, 6vw, 5.2rem); letter-spacing: -.07em; line-height: .95; }
+      p { margin: 24px 0 0; color: #555c53; line-height: 1.8; }
+      a { display: inline-flex; width: fit-content; min-height: 48px; align-items: center; gap: 28px; margin-top: 34px; padding: 0 18px; border: 1px solid #111311; border-radius: 999px; color: #fffdf7; background: #111311; font-weight: 800; text-decoration: none; }
+      a:focus-visible { outline: 3px solid #6847ff; outline-offset: 4px; }
+      @media (max-width: 650px) { .body { grid-template-columns: 1fr; } .number { min-height: 220px; border-right: 0; border-bottom: 1px solid #111311; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="top"><span>KUTO / 87</span><span>NOT FOUND</span></div>
+      <div class="body">
+        <div class="number" aria-hidden="true">404</div>
+        <div class="copy">
+          <h1>このページは、<br>まだ動いていません。</h1>
+          <p>URLが変わったか、ページが見つからないようです。公式サイトのトップから、公開中の作品をご覧ください。</p>
+          <a href="/">トップへ戻る <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

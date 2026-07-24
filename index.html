@@ -1,35 +1,105 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#f4f1e8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta
       name="description"
-      content="kuto87 が作ったWebアプリ、ゲーム、自動化ツールをまとめる個人サイトです。"
-    />
-    <meta name="theme-color" content="#fffaf6" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://kuto87.github.io/" />
-    <meta property="og:site_name" content="Kuto Lab" />
-    <meta property="og:title" content="Kuto Lab | kuto87 の個人サイト" />
+      content="京都でWebアプリ、ゲーム、CLI、自動化ツールをつくるkuto87の公式サイト。小さく作り、公開し、育てているプロジェクトを紹介します。"
+   >
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://kuto87.github.io/">
+    <link rel="alternate" hreflang="ja" href="https://kuto87.github.io/">
+    <link rel="alternate" hreflang="en" href="https://kuto87.github.io/en/">
+    <link rel="alternate" hreflang="x-default" href="https://kuto87.github.io/">
+
+    <script>
+      if (new URLSearchParams(window.location.search).get('lang') === 'en') {
+        window.location.replace(`/en/${window.location.hash}`)
+      }
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kuto87.github.io/">
+    <meta property="og:site_name" content="KUTO">
+    <meta property="og:locale" content="ja_JP">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:title" content="KUTO — アイデアを、動くものに。">
     <meta
       property="og:description"
-      content="kuto87 が作ったWebアプリ、ゲーム、自動化ツールをまとめる個人サイトです。"
-    />
-    <meta property="og:image" content="https://kuto87.github.io/og-image.svg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Kuto Lab | kuto87 の個人サイト" />
+      content="京都でWebアプリ、ゲーム、CLI、自動化ツールをつくるkuto87の公式サイト。"
+   >
+    <meta property="og:image" content="https://kuto87.github.io/og.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1729">
+    <meta property="og:image:height" content="910">
+    <meta property="og:image:alt" content="KUTO — Ideas, made to move. Digital Maker in Kyoto.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@rinrin1600">
+    <meta name="twitter:title" content="KUTO — アイデアを、動くものに。">
     <meta
       name="twitter:description"
-      content="kuto87 が作ったWebアプリ、ゲーム、自動化ツールをまとめる個人サイトです。"
-    />
-    <meta name="twitter:image" content="https://kuto87.github.io/og-image.svg" />
-    <link rel="canonical" href="https://kuto87.github.io/" />
-    <title>Kuto Lab | kuto87 の個人サイト</title>
+      content="京都でWebアプリ、ゲーム、CLI、自動化ツールをつくるkuto87の公式サイト。"
+   >
+    <meta name="twitter:image" content="https://kuto87.github.io/og.png">
+    <meta name="twitter:image:alt" content="KUTO — Ideas, made to move. Digital Maker in Kyoto.">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://kuto87.github.io/#website",
+            "url": "https://kuto87.github.io/",
+            "name": "KUTO",
+            "description": "Web apps, games, CLIs, and automation tools made by kuto87 in Kyoto.",
+            "inLanguage": ["ja", "en"],
+            "author": { "@id": "https://kuto87.github.io/#person" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://kuto87.github.io/#person",
+            "name": "kuto87",
+            "url": "https://kuto87.github.io/",
+            "homeLocation": { "@type": "Place", "name": "Kyoto, Japan" },
+            "sameAs": [
+              "https://github.com/kuto87",
+              "https://x.com/rinrin1600"
+            ],
+            "knowsAbout": ["React", "TypeScript", "Python", "Web applications", "Browser games", "CLI tools"]
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://kuto87.github.io/#projects",
+            "name": "Selected projects by kuto87",
+            "numberOfItems": 5,
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "url": "https://kuto87.github.io/okuman-printing-support/support.html", "name": "億万印刷所 Support" },
+              { "@type": "ListItem", "position": 2, "url": "https://kuto87.github.io/break-reactor/", "name": "break-reactor" },
+              { "@type": "ListItem", "position": 3, "url": "https://github.com/kuto87/branch-canvas", "name": "branch-canvas" },
+              { "@type": "ListItem", "position": 4, "url": "https://github.com/kuto87/ctx-ledger", "name": "ctx-ledger" },
+              { "@type": "ListItem", "position": 5, "url": "https://github.com/kuto87/plc-factory-clicker", "name": "plc-factory-clicker" }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <title>KUTO — 京都でつくるデジタルプロダクト</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p>このサイトを表示するにはJavaScriptを有効にしてください。作品一覧は <a href="https://github.com/kuto87">GitHub</a> でも確認できます。</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
