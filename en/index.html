@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#f4f1e8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta
+      name="description"
+      content="The official site of kuto87, making web apps, games, CLIs, and automation tools in Kyoto. Small projects, shipped and grown in public."
+    >
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="canonical" href="https://kuto87.github.io/en/">
+    <link rel="alternate" hreflang="ja" href="https://kuto87.github.io/">
+    <link rel="alternate" hreflang="en" href="https://kuto87.github.io/en/">
+    <link rel="alternate" hreflang="x-default" href="https://kuto87.github.io/">
+
+    <script>
+      if (new URLSearchParams(window.location.search).get('lang') === 'ja') {
+        window.location.replace(`/${window.location.hash}`)
+      }
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kuto87.github.io/en/">
+    <meta property="og:site_name" content="KUTO">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <meta property="og:title" content="KUTO — Ideas, made to move.">
+    <meta
+      property="og:description"
+      content="Web apps, games, CLIs, and automation tools made by kuto87 in Kyoto."
+    >
+    <meta property="og:image" content="https://kuto87.github.io/og.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1729">
+    <meta property="og:image:height" content="910">
+    <meta property="og:image:alt" content="KUTO — Ideas, made to move. Digital Maker in Kyoto.">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@rinrin1600">
+    <meta name="twitter:title" content="KUTO — Ideas, made to move.">
+    <meta
+      name="twitter:description"
+      content="Web apps, games, CLIs, and automation tools made by kuto87 in Kyoto."
+    >
+    <meta name="twitter:image" content="https://kuto87.github.io/og.png">
+    <meta name="twitter:image:alt" content="KUTO — Ideas, made to move. Digital Maker in Kyoto.">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://kuto87.github.io/en/#webpage",
+            "url": "https://kuto87.github.io/en/",
+            "name": "KUTO — Digital products made in Kyoto",
+            "description": "Web apps, games, CLIs, and automation tools made by kuto87 in Kyoto.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://kuto87.github.io/#website" },
+            "author": { "@id": "https://kuto87.github.io/#person" }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://kuto87.github.io/#website",
+            "url": "https://kuto87.github.io/",
+            "name": "KUTO",
+            "inLanguage": ["ja", "en"]
+          },
+          {
+            "@type": "Person",
+            "@id": "https://kuto87.github.io/#person",
+            "name": "kuto87",
+            "url": "https://kuto87.github.io/",
+            "homeLocation": { "@type": "Place", "name": "Kyoto, Japan" },
+            "sameAs": [
+              "https://github.com/kuto87",
+              "https://x.com/rinrin1600"
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <title>KUTO — Digital products made in Kyoto</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p>Please enable JavaScript to view this site. You can also find the projects on <a href="https://github.com/kuto87">GitHub</a>.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
