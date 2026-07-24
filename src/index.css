@@ -2,8 +2,8 @@
   font-family:
     Inter, "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Yu Gothic",
     Meiryo, sans-serif;
-  color: #111311;
-  background: #f4f1e8;
+  color: #16252d;
+  background: #e8e0cf;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,13 +17,11 @@
 }
 
 html {
-  min-width: 320px;
   scroll-behavior: smooth;
-  scroll-padding-top: 20px;
+  scroll-padding-top: 90px;
 }
 
 body {
-  min-width: 320px;
   min-height: 100vh;
   margin: 0;
 }
@@ -41,13 +39,13 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid #6847ff;
+  outline: 3px solid #a83c2e;
   outline-offset: 4px;
 }
 
 ::selection {
-  color: #111311;
-  background: #c7ff4a;
+  color: #f7f1e4;
+  background: #a83c2e;
 }
 
 .sr-only {
@@ -63,7 +61,13 @@ button {
 
 @media (prefers-contrast: more) {
   :focus-visible {
-    outline-color: #111311;
+    outline-color: #16252d;
     outline-width: 4px;
+  }
+}
+
+@media (max-width: 620px) {
+  html {
+    scroll-padding-top: 126px;
   }
 }
