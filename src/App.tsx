@@ -1,78 +1,21 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import './App.css'
 import {
   copy,
-  filterStorageKey,
-  projectFilters,
   projects,
   socialLinks,
   type Language,
   type Project,
-  type ProjectFilter,
 } from './data/site'
-
-const defaultFilter: ProjectFilter = 'all'
-
-function isProjectFilter(value: string | null): value is ProjectFilter {
-  return projectFilters.some((filter) => filter.value === value)
-}
-
-function readStoredValue(key: string) {
-  try {
-    return window.localStorage?.getItem(key) ?? null
-  } catch {
-    return null
-  }
-}
-
-function writeStoredValue(key: string, value: string) {
-  try {
-    window.localStorage?.setItem(key, value)
-  } catch {
-    // Preferences remain available for the current session when storage is blocked.
-  }
-}
 
 function detectLanguage(): Language {
   return window.location.pathname.startsWith('/en/') ? 'en' : 'ja'
 }
 
-function detectFilter(): ProjectFilter {
-  const storedFilter = readStoredValue(filterStorageKey)
-  return isProjectFilter(storedFilter) ? storedFilter : defaultFilter
-}
-
 function navigateToLanguage(language: Language) {
   const targetPath = language === 'en' ? '/en/' : '/'
   window.location.assign(`${targetPath}${window.location.hash}`)
-}
-
-function useRevealAnimation(language: Language, filter: ProjectFilter) {
-  useEffect(() => {
-    const items = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      items.forEach((item) => item.classList.add('is-visible'))
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
-    )
-
-    items.forEach((item) => observer.observe(item))
-    return () => observer.disconnect()
-  }, [filter, language])
 }
 
 function ExternalLink({
@@ -99,6 +42,52 @@ function ExternalLink({
   )
 }
 
+function AmbientBackground() {
+  const traces = [
+    'M0 54H96L154 18H248L306 54H420L476 82H588L646 26H756L810 54H934L988 12H1098L1152 68H1270L1324 34H1440',
+    'M0 46H142L198 72H310L366 28H482L538 58H662L718 16H822L878 48H1010L1066 78H1184L1240 40H1440',
+    'M0 62H108L164 34H276L332 76H450L506 44H626L682 18H798L854 64H974L1030 38H1154L1210 82H1326L1382 52H1440',
+  ]
+
+  return (
+    <div className="ambient-background" aria-hidden="true">
+      <div className="ambient-paper">
+        <div className="ambient-grid" />
+        <div className="feed-holes feed-holes-left" />
+        <div className="feed-holes feed-holes-right" />
+        {traces.map((path, index) => (
+          <svg
+            className={`chart-signal chart-signal-${String.fromCharCode(97 + index)}`}
+            focusable="false"
+            key={path}
+            preserveAspectRatio="none"
+            viewBox="0 0 1440 100"
+          >
+            <path d={path} vectorEffect="non-scaling-stroke" />
+          </svg>
+        ))}
+        <div className="ambient-registration">87 / LOG</div>
+      </div>
+      <div className="ambient-plotter-line"><i /><span>REC</span></div>
+    </div>
+  )
+}
+
+function TextLines({ text }: { text: string }) {
+  const lines = text.split('\n')
+
+  return (
+    <span className="text-lines">
+      {lines.map((line, index) => (
+        <Fragment key={`${line}-${index}`}>
+          <span>{line}</span>
+          {index < lines.length - 1 && <br />}
+        </Fragment>
+      ))}
+    </span>
+  )
+}
+
 function Header({
   language,
   onLanguageChange,
@@ -114,6 +103,11 @@ function Header({
         <span>KUTO</span>
         <span aria-hidden="true">/87</span>
       </a>
+
+      <p className="header-note">
+        <i aria-hidden="true" />
+        {t.headerNote}
+      </p>
 
       <nav className="site-nav" aria-label={t.navLabel}>
         <a href="#works">{t.nav.works}</a>
@@ -144,11 +138,11 @@ function Hero({ language }: { language: Language }) {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-copy" data-reveal>
+      <div className="hero-copy">
         <p className="eyebrow">{t.hero.eyebrow}</p>
         <h1 id="hero-title" aria-label={t.hero.screenReaderTitle}>
           {t.hero.title.map((line, index) => (
-            <span className={index === 1 ? 'hero-accent-line' : undefined} key={line}>
+            <span className={index === 1 ? 'hero-accent-line' : undefined} key={`${line}-${index}`}>
               {line}
             </span>
           ))}
@@ -176,209 +170,210 @@ function Hero({ language }: { language: Language }) {
         </p>
       </div>
 
-      <div className="hero-stage" aria-hidden="true" data-reveal>
-        <div className="stage-coordinate stage-coordinate-top">35.0116° N</div>
-        <div className="stage-coordinate stage-coordinate-side">135.7681° E</div>
-        <div className="stack-object">
-          <div className="stack-shadow" />
-          <div className="stack-plate stack-plate-back">
-            <span>05</span>
-            <span>PROJECTS</span>
-          </div>
-          <div className="stack-plate stack-plate-mid">
-            <span>KUTO</span>
-            <span>LAB</span>
-          </div>
-          <div className="stack-plate stack-plate-front">
-            <span className="stack-number">87</span>
-            <span className="stack-caption">{t.hero.visualCaption}</span>
-            <span className="stack-year">©26</span>
-          </div>
+      <div className="hero-stage" aria-hidden="true">
+        <div className="plotter-meta plotter-meta-top">35.0116 N / 135.7681 E</div>
+        <div className="plotter-meta plotter-meta-side">WORK LOG — 087</div>
+        <div className="plotter-paper">
+          <span className="plotter-kicker">MAKE / TEST / PATCH</span>
+          <svg
+            className="plotter-trace"
+            focusable="false"
+            preserveAspectRatio="none"
+            viewBox="0 0 1100 110"
+          >
+            <path
+              d="M0 62H80L136 18H256L312 62H400L456 88H560L616 28H720L780 64H900L960 34H1100"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+          <strong>87</strong>
+          <span className="plotter-caption">{t.hero.visualCaption}</span>
+          <span className="plotter-date">2026—NOW</span>
         </div>
-        <div className="stage-stamp">KYOTO<br />JAPAN</div>
+        <div className="plotter-rail">
+          <span className="plotter-head"><i />REC</span>
+        </div>
+        <div className="plotter-output">KUTO / PERSONAL OUTPUT / KYOTO</div>
       </div>
     </section>
   )
 }
 
-function IndexStrip({ language }: { language: Language }) {
+function ProjectTitle({ title }: { title: string }) {
+  if (title.includes(' ')) {
+    const words = title.split(' ')
+
+    return (
+      <>
+        {words.map((word, index) => (
+          <Fragment key={`${word}-${index}`}>
+            <span>{word}</span>
+            {index < words.length - 1 && <><span aria-hidden="true"> </span><wbr /></>}
+          </Fragment>
+        ))}
+      </>
+    )
+  }
+
+  const segments = title.split('-')
+
   return (
-    <div className="index-strip" aria-label="Creative fields">
-      {copy[language].indexStrip.map((item, index) => (
-        <span key={item}>
-          {item}
-          {index < copy[language].indexStrip.length - 1 && <i aria-hidden="true">✦</i>}
-        </span>
+    <>
+      {segments.map((segment, index) => (
+        <Fragment key={`${segment}-${index}`}>
+          <span>{segment}{index < segments.length - 1 ? '-' : ''}</span>
+          {index < segments.length - 1 && <wbr />}
+        </Fragment>
       ))}
-    </div>
+    </>
   )
 }
 
-function ProjectArtwork({ project }: { project: Project }) {
+function ProjectEvidence({ project }: { project: Project }) {
   if (project.visual === 'press') {
     return (
-      <div className="artwork artwork-press" aria-hidden="true">
-        <div className="press-sheet press-sheet-back">¥87</div>
-        <div className="press-sheet press-sheet-mid">億万</div>
-        <div className="press-sheet press-sheet-front">
-          <span>PRINT</span>
-          <strong>87</strong>
-          <span>SUPPORT</span>
+      <div className="evidence evidence-support" aria-hidden="true">
+        <div className="support-document">
+          <p>億万印刷所 / SUPPORT</p>
+          <strong>必要な情報を<br />一枚に。</strong>
+          <ul>
+            <li>01 — FAQ</li>
+            <li>02 — PRIVACY</li>
+            <li>03 — REPORT AN ISSUE</li>
+          </ul>
         </div>
+        <span className="evidence-stamp">LIVE<br />PAGE</span>
       </div>
     )
   }
 
   if (project.visual === 'reactor') {
     return (
-      <div className="artwork artwork-reactor" aria-hidden="true">
-        <div className="reactor-score">WAVE 87</div>
-        <div className="reactor-blocks">
+      <div className="evidence evidence-reactor" aria-hidden="true">
+        <div className="reactor-score">WAVE 0005 / BOSS</div>
+        <div className="reactor-field">
           {Array.from({ length: 18 }, (_, index) => <i key={index} />)}
         </div>
         <span className="reactor-ball" />
         <span className="reactor-paddle" />
+        <div className="reactor-stat"><span>MAX BALL</span><strong>30</strong></div>
       </div>
     )
   }
 
   if (project.visual === 'branch') {
     return (
-      <div className="artwork artwork-branch" aria-hidden="true">
-        <span className="branch-line branch-line-a" />
-        <span className="branch-line branch-line-b" />
-        <span className="branch-line branch-line-c" />
-        <span className="branch-node branch-node-root">IDEA</span>
-        <span className="branch-node branch-node-a">A</span>
-        <span className="branch-node branch-node-b">B</span>
-        <span className="branch-node branch-node-c">C</span>
+      <div className="evidence evidence-branch" aria-hidden="true">
+        <code>maps/&#123;mapId&#125;/nodes</code>
+        <div className="branch-tree">
+          <span className="branch-node branch-node-root">ROOT</span>
+          <span className="branch-node branch-node-a">A</span>
+          <span className="branch-node branch-node-b">B</span>
+          <span className="branch-node branch-node-c">C</span>
+          <i className="branch-line branch-line-a" />
+          <i className="branch-line branch-line-b" />
+          <i className="branch-line branch-line-c" />
+        </div>
+        <p>SELECT × SHARE × COPY</p>
       </div>
     )
   }
 
   if (project.visual === 'ledger') {
     return (
-      <div className="artwork artwork-ledger" aria-hidden="true">
-        <div className="terminal-bar"><i /><i /><i /></div>
-        <div className="terminal-copy">
-          <span>$ ctx handoff</span>
-          <span>collecting git state...</span>
-          <span>building context pack...</span>
-          <strong>NEXT_PROMPT.md ✓</strong>
-          <i className="terminal-cursor" />
+      <div className="evidence evidence-ledger" aria-hidden="true">
+        <div className="ledger-command">$ ctx handoff</div>
+        <div className="ledger-output">
+          <span>01  notes</span>
+          <span>02  git state</span>
+          <span>03  sent history</span>
+          <strong>→ NEXT_PROMPT.md</strong>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="artwork artwork-factory" aria-hidden="true">
-      <div className="factory-display">0087</div>
-      <div className="factory-gauge"><span /></div>
-      <div className="factory-controls"><i /><i /><i /></div>
-      <div className="factory-label">PLC / RUN</div>
+    <div className="evidence evidence-factory" aria-hidden="true">
+      <div className="factory-rail" />
+      <div className="factory-contact">X0</div>
+      <div className="factory-coil">M0</div>
+      <div className="factory-timer">T0<br /><small>3 SEC</small></div>
+      <div className="factory-state">RUN / 0087</div>
     </div>
   )
 }
 
 function ProjectCard({ language, project }: { language: Language; project: Project }) {
   const t = copy[language]
-  const label = `${project.title}: ${t.works.open}. ${t.external}`
+  const label = `${project.title}: ${project.cta[language]}. ${t.external}`
 
   return (
-    <ExternalLink
-      className={`project-card project-${project.visual}${project.featured ? ' is-featured' : ''}`}
-      href={project.link}
-      label={label}
-    >
-      <div className="project-art">
-        <ProjectArtwork project={project} />
-      </div>
-      <div className="project-copy">
+    <article className={`project-entry project-${project.visual}${project.featured ? ' is-featured' : ''}`}>
+      <span className="project-index" aria-hidden="true">{project.index}</span>
+
+      <header className="project-heading">
         <div className="project-kicker">
-          <span>{project.index}</span>
+          <span>{project.year}</span>
           <span>{project.kind[language]}</span>
           <span className={`project-status status-${project.status.toLowerCase()}`}>
-            <i aria-hidden="true" />
             {t.works.status[project.status]}
           </span>
         </div>
+        <h3><ProjectTitle title={project.title} /></h3>
+      </header>
 
-        <h3>{project.title}</h3>
-        <p className="project-description">{project.description[language]}</p>
-        <p className="project-note">{project.note[language]}</p>
+      <div className="project-entry-body">
+        <div className="project-evidence">
+          <ProjectEvidence project={project} />
+        </div>
+        <div className="project-copy">
+          <dl>
+            <div>
+              <dt>{t.works.whyLabel}</dt>
+              <dd>{project.description[language]}</dd>
+            </div>
+            <div>
+              <dt>{t.works.detailLabel}</dt>
+              <dd>{project.note[language]}</dd>
+            </div>
+          </dl>
 
-        <div className="project-footer">
-          <ul aria-label="Technology">
-            {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
-          </ul>
-          <span className="project-open">
-            {t.works.open}
+          <p className="project-stack">
+            <span>{t.works.stackLabel}</span>
+            {project.tags.join(' / ')}
+          </p>
+
+          <ExternalLink className="project-open" href={project.link} label={label}>
+            {project.cta[language]}
             <i aria-hidden="true">↗</i>
-          </span>
+          </ExternalLink>
         </div>
       </div>
-    </ExternalLink>
+    </article>
   )
 }
 
-function Works({
-  filter,
-  language,
-  onFilterChange,
-}: {
-  filter: ProjectFilter
-  language: Language
-  onFilterChange: (filter: ProjectFilter) => void
-}) {
+function Works({ language }: { language: Language }) {
   const t = copy[language]
-  const visibleProjects = useMemo(() => {
-    if (filter === 'live') return projects.filter((project) => project.status === 'Live')
-    if (filter === 'code') return projects.filter((project) => project.status === 'Code')
-    return projects
-  }, [filter])
 
   return (
     <section className="works section-shell" id="works" aria-labelledby="works-title">
-      <div className="section-heading" data-reveal>
+      <div className="section-heading">
         <div>
           <p className="eyebrow">{t.works.eyebrow}</p>
-          <h2 id="works-title">{t.works.title}</h2>
+          <h2 id="works-title"><TextLines text={t.works.title} /></h2>
         </div>
         <div className="section-heading-side">
           <p>{t.works.lead}</p>
-          <div className="project-filters" aria-label={t.works.filterLabel} role="group">
-            {projectFilters.map((option) => (
-              <button
-                aria-pressed={filter === option.value}
-                className={filter === option.value ? 'is-active' : undefined}
-                key={option.value}
-                onClick={() => onFilterChange(option.value)}
-                type="button"
-              >
-                {option.label[language]}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
-      {visibleProjects.length ? (
-        <div className="project-list">
-          <p className="sr-only" aria-live="polite">
-            {language === 'ja'
-              ? `${visibleProjects.length}件のプロジェクトを表示しています。`
-              : `Showing ${visibleProjects.length} projects.`}
-          </p>
-          {visibleProjects.map((project) => (
-            <div data-reveal key={project.id}>
-              <ProjectCard language={language} project={project} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="empty-state">{t.works.empty}</p>
-      )}
+      <div className="project-list">
+        {projects.map((project) => (
+          <ProjectCard key={project.id} language={language} project={project} />
+        ))}
+      </div>
     </section>
   )
 }
@@ -388,15 +383,15 @@ function About({ language }: { language: Language }) {
 
   return (
     <section className="about section-shell" id="about" aria-labelledby="about-title">
-      <div className="about-intro" data-reveal>
+      <div className="about-intro">
         <p className="eyebrow">{t.about.eyebrow}</p>
         <h2 id="about-title">
-          {t.about.title.split('\n').map((line) => <span key={line}>{line}</span>)}
+          <TextLines text={t.about.title} />
         </h2>
       </div>
 
       <div className="about-grid">
-        <div className="about-copy" data-reveal>
+        <div className="about-copy">
           <p>{t.about.text}</p>
           <dl>
             <div>
@@ -410,20 +405,10 @@ function About({ language }: { language: Language }) {
           </dl>
         </div>
 
-        <div className="principles" data-reveal>
-          <p className="principles-label">{t.about.principlesLabel}</p>
-          <ol>
-            {t.about.principles.map((principle) => (
-              <li key={principle.number}>
-                <span>{principle.number}</span>
-                <div>
-                  <strong>{principle.title}</strong>
-                  <p>{principle.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <blockquote className="bench-note">
+          <p>{t.about.memo}</p>
+          <cite>KUTO87 / WORK NOTE</cite>
+        </blockquote>
       </div>
     </section>
   )
@@ -434,10 +419,10 @@ function Contact({ language }: { language: Language }) {
 
   return (
     <section className="contact section-shell" id="contact" aria-labelledby="contact-title">
-      <div className="contact-card" data-reveal>
+      <div className="contact-card">
         <p className="eyebrow">{t.contact.eyebrow}</p>
         <h2 id="contact-title">
-          {t.contact.title.split('\n').map((line) => <span key={line}>{line}</span>)}
+          <TextLines text={t.contact.title} />
         </h2>
         <div className="contact-bottom">
           <p>{t.contact.text}</p>
@@ -454,7 +439,7 @@ function Contact({ language }: { language: Language }) {
             ))}
           </div>
         </div>
-        <span className="contact-orbit" aria-hidden="true">87</span>
+        <p className="contact-signature">END OF CURRENT LOG — CONTINUE ON GITHUB / X</p>
       </div>
     </section>
   )
@@ -462,20 +447,13 @@ function Contact({ language }: { language: Language }) {
 
 function App() {
   const [language] = useState<Language>(detectLanguage)
-  const [filter, setFilter] = useState<ProjectFilter>(detectFilter)
   const t = copy[language]
-
-  useRevealAnimation(language, filter)
 
   useEffect(() => {
     document.documentElement.lang = language
     document.title = t.pageTitle
     document.querySelector('meta[name="description"]')?.setAttribute('content', t.pageDescription)
   }, [language, t.pageDescription, t.pageTitle])
-
-  useEffect(() => {
-    writeStoredValue(filterStorageKey, filter)
-  }, [filter])
 
   const changeLanguage = (nextLanguage: Language) => {
     if (nextLanguage === language) return
@@ -484,13 +462,13 @@ function App() {
 
   return (
     <div className="page">
+      <AmbientBackground />
       <a className="skip-link" href="#main-content">{t.skip}</a>
       <Header language={language} onLanguageChange={changeLanguage} />
 
       <main id="main-content">
         <Hero language={language} />
-        <IndexStrip language={language} />
-        <Works filter={filter} language={language} onFilterChange={setFilter} />
+        <Works language={language} />
         <About language={language} />
         <Contact language={language} />
       </main>

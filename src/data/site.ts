@@ -1,6 +1,5 @@
 export type Language = 'ja' | 'en'
 export type ProjectStatus = 'Live' | 'Code'
-export type ProjectFilter = 'all' | 'live' | 'code'
 
 export type LocalizedText = {
   ja: string
@@ -14,6 +13,7 @@ export type Project = {
   kind: LocalizedText
   description: LocalizedText
   note: LocalizedText
+  cta: LocalizedText
   tags: string[]
   link: string
   status: ProjectStatus
@@ -21,8 +21,6 @@ export type Project = {
   visual: 'press' | 'reactor' | 'branch' | 'ledger' | 'factory'
   featured?: boolean
 }
-
-export const filterStorageKey = 'kuto-site-project-filter'
 
 export const socialLinks = [
   {
@@ -37,21 +35,13 @@ export const socialLinks = [
   },
 ] as const
 
-export const projectFilters = [
-  { value: 'all', label: { ja: 'すべて', en: 'All' } },
-  { value: 'live', label: { ja: '公開中', en: 'Live' } },
-  { value: 'code', label: { ja: 'コード', en: 'Code' } },
-] as const satisfies ReadonlyArray<{
-  value: ProjectFilter
-  label: LocalizedText
-}>
-
 export const copy = {
   ja: {
-    pageTitle: 'KUTO — 京都でつくるデジタルプロダクト',
+    pageTitle: 'KUTO / 87 — 京都でつくるゲームと道具',
     pageDescription:
-      '京都でWebアプリ、ゲーム、CLI、自動化ツールをつくるkuto87の公式サイト。小さく作り、公開し、育てているプロジェクトを紹介します。',
+      '京都でゲーム、Webアプリ、CLIをつくるkuto87の作業記録。公開中の作品と、手を動かしながら考えたことを置いています。',
     skip: '本文へ移動',
+    headerNote: '京都の個人制作机 / 稼働中',
     navLabel: 'メインナビゲーション',
     nav: {
       works: 'Works',
@@ -61,51 +51,46 @@ export const copy = {
     languageLabel: '表示言語',
     external: '新しいタブで開きます',
     hero: {
-      eyebrow: 'DIGITAL MAKER / KYOTO',
-      title: ['アイデアを、', '動くものに。'],
-      screenReaderTitle: 'アイデアを、動くものに。',
-      text: 'Webアプリ、ゲーム、AI時代の小さな道具。考えるところから、作って公開するところまで。',
-      primaryAction: '作品を見る',
-      secondaryAction: 'GitHubへ',
-      availability: '京都で制作中',
-      visualCaption: 'Build small. Ship real.',
+      eyebrow: 'KUTO87 / KYOTO / 2026',
+      title: ['ゲームと道具。', '京都で作る。'],
+      screenReaderTitle: 'ゲームと道具。京都で作る。',
+      text: 'ブロック崩し、思考整理アプリ、AI引き継ぎCLI。京都で作り、遊べるページか読めるコードまで公開しています。',
+      primaryAction: '作業記録を見る',
+      secondaryAction: 'コードを見る',
+      availability: 'だいたい何かを制作中',
+      visualCaption: 'まだ完成とは限らない。',
     },
-    indexStrip: ['WEB APPS', 'GAMES', 'AUTOMATION', 'CLI', 'OPEN SOURCE'],
     works: {
-      eyebrow: 'SELECTED WORK / 05',
-      title: '作ったもの。',
-      lead: '遊べるもの、使えるもの、次の制作を少し楽にするもの。小さく始めて、公開できる形まで作っています。',
-      filterLabel: 'プロジェクトの表示条件',
-      empty: 'この条件のプロジェクトはまだありません。',
-      open: 'プロジェクトを見る',
-      status: { Live: '公開中', Code: 'コード公開' },
+      eyebrow: 'OUTPUT LOG / 01—05',
+      title: '5つの記録。\n2つは公開中。',
+      lead: 'ゲーム2本、思考整理アプリ、AI引き継ぎCLI、サポートサイト。遊べるページとコードを、作業ログとして並べました。',
+      whyLabel: '何を作った',
+      detailLabel: '実物の記録',
+      stackLabel: '使用:',
+      status: { Live: 'RUN / 公開中', Code: 'CODE / リポジトリ' },
     },
     about: {
-      eyebrow: 'ABOUT / KUTO87',
-      title: '小さく始めて、\nちゃんと届くところまで。',
-      text: 'React、TypeScript、Pythonを中心に、Webアプリやゲーム、CLIを作っています。まず手を動かして確かめ、触ってわかる形にしてから、あとで育てやすく整えるのが好きです。',
+      eyebrow: 'BENCH NOTES / KUTO87',
+      title: 'まず動かす。\n公開する。\nあとで直す。',
+      text: 'React / TypeScript / Pythonで、ブラウザゲーム、Webアプリ、CLIを作っています。試作で終わらせず、動くページか読めるコードまで持っていきます。',
       locationLabel: '拠点',
       location: 'Kyoto, Japan',
       stackLabel: 'よく使うもの',
-      principlesLabel: '制作の考え方',
-      principles: [
-        { number: '01', title: 'Ship small', text: '小さく作り、まず公開する。' },
-        { number: '02', title: 'Stay changeable', text: 'あとから直しやすく保つ。' },
-        { number: '03', title: 'Make it tangible', text: '遊べる・使える形にする。' },
-      ],
+      memo: '完成を待つと、たぶんずっと公開しない。だから小さく出して、触って見つけた違和感を直します。',
     },
     contact: {
-      eyebrow: 'CONTACT / FOLLOW ALONG',
-      title: '次のアイデアも、\nもう動きはじめています。',
-      text: 'コードと制作メモはGitHubへ。日々の短い更新はXに置いています。',
+      eyebrow: 'OPEN CHANNEL / NO FORM',
+      title: '更新先は、\nGitHub / X',
+      text: 'リポジトリと更新履歴はGitHub、短い制作メモはXで見られます。',
     },
     footerTop: 'ページの先頭へ',
   },
   en: {
-    pageTitle: 'KUTO — Digital products made in Kyoto',
+    pageTitle: 'KUTO / 87 — Games and tools made in Kyoto',
     pageDescription:
-      'The official site of kuto87, making web apps, games, CLIs, and automation tools in Kyoto. Small projects, shipped and grown in public.',
+      'The working log of kuto87 in Kyoto: games, web apps, CLIs, released projects, and notes from the bench.',
     skip: 'Skip to content',
+    headerNote: 'Personal workbench in Kyoto / running',
     navLabel: 'Main navigation',
     nav: {
       works: 'Works',
@@ -115,43 +100,37 @@ export const copy = {
     languageLabel: 'Display language',
     external: 'Opens in a new tab',
     hero: {
-      eyebrow: 'DIGITAL MAKER / KYOTO',
-      title: ['Ideas, made', 'to move.'],
-      screenReaderTitle: 'Ideas, made to move.',
-      text: 'Web apps, games, and small tools for the AI era. From the first thought to something real enough to ship.',
-      primaryAction: 'See the work',
-      secondaryAction: 'Go to GitHub',
-      availability: 'Building in Kyoto',
-      visualCaption: 'Build small. Ship real.',
+      eyebrow: 'KUTO87 / KYOTO / 2026',
+      title: ['Games and tools.', 'Made in Kyoto.'],
+      screenReaderTitle: 'Games and tools. Made in Kyoto.',
+      text: 'A browser game, a branching thought tool, and a CLI for AI coding handoffs. Built in Kyoto and published as live pages or open code.',
+      primaryAction: 'Read the work log',
+      secondaryAction: 'Read the code',
+      availability: 'Usually making something',
+      visualCaption: 'MAY NOT BE FINISHED.',
     },
-    indexStrip: ['WEB APPS', 'GAMES', 'AUTOMATION', 'CLI', 'OPEN SOURCE'],
     works: {
-      eyebrow: 'SELECTED WORK / 05',
-      title: 'Things I made.',
-      lead: 'Things to play, things to use, and tools that make the next build a little easier. Started small and shaped until ready to ship.',
-      filterLabel: 'Filter projects',
-      empty: 'No projects match this filter yet.',
-      open: 'View project',
-      status: { Live: 'Live', Code: 'Open code' },
+      eyebrow: 'OUTPUT LOG / 01—05',
+      title: 'Five projects.\nTwo are live.',
+      lead: 'Two games, a thinking tool, an AI handoff CLI, and a support site. Live pages and repositories, filed as working logs.',
+      whyLabel: 'What it does',
+      detailLabel: 'Recorded detail',
+      stackLabel: 'Built with:',
+      status: { Live: 'RUN / Live', Code: 'CODE / Repository' },
     },
     about: {
-      eyebrow: 'ABOUT / KUTO87',
-      title: 'Start small.\nFinish where it reaches people.',
-      text: 'I make web apps, games, and CLIs, mostly with React, TypeScript, and Python. I like testing ideas by building, making them tangible, and keeping the result easy to improve.',
+      eyebrow: 'BENCH NOTES / KUTO87',
+      title: 'Build one.\nPut it online.\nThen fix it.',
+      text: 'I make browser games, web apps, and CLIs with React, TypeScript, and Python. I take them past the prototype and publish a working page or readable code.',
       locationLabel: 'Based in',
       location: 'Kyoto, Japan',
       stackLabel: 'Often working with',
-      principlesLabel: 'Making principles',
-      principles: [
-        { number: '01', title: 'Ship small', text: 'Build less, release sooner.' },
-        { number: '02', title: 'Stay changeable', text: 'Keep the next edit easy.' },
-        { number: '03', title: 'Make it tangible', text: 'Make it useful or playable.' },
-      ],
+      memo: 'If I wait until it’s finished, I may never publish. I put out a small version, use it, and fix what feels wrong.',
     },
     contact: {
-      eyebrow: 'CONTACT / FOLLOW ALONG',
-      title: 'The next idea\nis already moving.',
-      text: 'Code and project notes live on GitHub. Smaller updates land on X.',
+      eyebrow: 'OPEN CHANNEL / NO FORM',
+      title: 'Updates live on\nGitHub / X.',
+      text: 'Repositories and release history are on GitHub. Short build notes are on X.',
     },
     footerTop: 'Back to top',
   },
@@ -164,13 +143,14 @@ export const projects: Project[] = [
     title: '億万印刷所 Support',
     kind: { ja: 'プロダクトサポート', en: 'Product support' },
     description: {
-      ja: '「億万印刷所」の公式サポートとプライバシーポリシーを、迷わず読める形にまとめた公開サイト。',
-      en: 'The official support and privacy site for Okuman Printing, designed to keep essential information clear and easy to reach.',
+      ja: '「億万印刷所」のFAQ、プライバシーポリシー、不具合報告先。必要な情報を1ページからたどれます。',
+      en: 'FAQs, the privacy policy, and issue reporting for the Okuman Printing game app—all from one support hub.',
     },
     note: {
-      ja: 'Support / Privacy / Issue reporting',
-      en: 'Support / Privacy / Issue reporting',
+      ja: 'FAQ / プライバシー / GitHub Issues',
+      en: 'FAQ / Privacy / GitHub Issues',
     },
+    cta: { ja: 'サポートを見る', en: 'Open support' },
     tags: ['HTML', 'GitHub Pages', 'Support'],
     link: 'https://kuto87.github.io/okuman-printing-support/support.html',
     status: 'Live',
@@ -183,13 +163,14 @@ export const projects: Project[] = [
     title: 'break-reactor',
     kind: { ja: 'ブラウザゲーム', en: 'Browser game' },
     description: {
-      ja: 'ブロック崩しに強化、コイン、ボス戦を重ねたエンドレスゲーム。短いプレイでも変化が見えるテンポを追求しました。',
-      en: 'An endless block breaker layered with upgrades, coins, and boss stages, tuned so even short sessions keep changing.',
+      ja: '強化とコインを集め、5 WAVEごとのボスを倒すブロック崩し。ブラウザですぐ遊べます。',
+      en: 'Collect upgrades and coins, then fight a boss every five waves. Play it in the browser.',
     },
     note: {
-      ja: 'ゲームループ / 当たり判定 / 難易度設計',
-      en: 'Game loop / Collision / Difficulty pacing',
+      ja: 'Canvas / 最大30ボール / WAVE 10000',
+      en: 'Canvas / Up to 30 balls / 10,000 waves',
     },
+    cta: { ja: 'ブラウザで遊ぶ', en: 'Play in browser' },
     tags: ['JavaScript', 'Game', 'GitHub Pages'],
     link: 'https://kuto87.github.io/break-reactor/',
     status: 'Live',
@@ -203,13 +184,14 @@ export const projects: Project[] = [
     title: 'branch-canvas',
     kind: { ja: '思考整理Webアプリ', en: 'Thinking tool' },
     description: {
-      ja: '考えごとや選択肢を、中心から枝分かれさせて整理するWebアプリ。軽い入力と、後から見返せる構造を両立します。',
-      en: 'A web app for branching ideas and choices from a central thought, balancing lightweight input with structure worth revisiting.',
+      ja: '中心のアイデアから候補を枝分かれ。複数選択、共有リンク、共有マップのコピーに対応。',
+      en: 'Branch options from one central idea. Multi-select, share links, and copyable shared maps are built in.',
     },
     note: {
-      ja: '状態設計 / Firebase / 情報整理UI',
-      en: 'State design / Firebase / Information UI',
+      ja: '匿名ログイン / 共有リンク / Firestore',
+      en: 'Anonymous Auth / Share links / Firestore',
     },
+    cta: { ja: 'コードを見る', en: 'View code' },
     tags: ['React', 'TypeScript', 'Firebase'],
     link: 'https://github.com/kuto87/branch-canvas',
     status: 'Code',
@@ -222,13 +204,14 @@ export const projects: Project[] = [
     title: 'ctx-ledger',
     kind: { ja: 'AI向けCLI', en: 'CLI for AI workflows' },
     description: {
-      ja: 'AIコーディングエージェントへ渡す文脈を、ローカルで整理・生成するCLI。新しいチャットでも説明を繰り返さずに済みます。',
-      en: 'A local-first CLI that organizes and generates context for AI coding agents, so a new chat can start without repeating everything.',
+      ja: 'ctx handoffで、メモとGitの状態からNEXT_PROMPT.mdを生成。次のAIチャットへそのまま渡せます。',
+      en: 'Run ctx handoff to turn notes and Git state into NEXT_PROMPT.md for the next AI coding session.',
     },
     note: {
-      ja: 'CLI設計 / ファイル処理 / 文脈管理',
-      en: 'CLI design / File processing / Context management',
+      ja: 'ctx handoff → NEXT_PROMPT.md',
+      en: 'ctx handoff → NEXT_PROMPT.md',
     },
+    cta: { ja: 'コードを見る', en: 'View code' },
     tags: ['Python', 'AI', 'CLI'],
     link: 'https://github.com/kuto87/ctx-ledger',
     status: 'Code',
@@ -241,13 +224,14 @@ export const projects: Project[] = [
     title: 'plc-factory-clicker',
     kind: { ja: 'クリックゲーム', en: 'Clicker game' },
     description: {
-      ja: '工場とPLCの空気感を、小さなクリックゲームに変換。メーターの動きと、数字が積み上がる気持ちよさを形にしました。',
-      en: 'A small clicker game that turns the mood of factories and PLC panels into animated meters and satisfying incremental progress.',
+      ja: 'X0で通電。自己保持回路とT0タイマを追加し、工場を自動化するクリックゲーム。',
+      en: 'Press X0 to power the line. Add a self-hold circuit and T0 timer to automate production.',
     },
     note: {
-      ja: '進行管理 / 数値バランス / テーマUI',
-      en: 'Progression / Number balance / Themed UI',
+      ja: '自己保持 / 3秒タイマ / セーブ移行',
+      en: 'Self-hold / 3-second timer / Save transfer',
     },
+    cta: { ja: 'コードを見る', en: 'View code' },
     tags: ['JavaScript', 'Game', 'UI'],
     link: 'https://github.com/kuto87/plc-factory-clicker',
     status: 'Code',
