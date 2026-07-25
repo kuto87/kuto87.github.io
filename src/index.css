@@ -1,9 +1,9 @@
 :root {
   font-family:
-    Inter, "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Yu Gothic",
+    "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic UI", "Yu Gothic",
     Meiryo, sans-serif;
-  color: #16252d;
-  background: #e8e0cf;
+  color: #171715;
+  background: #f7f7f4;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,6 +24,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
+  background: #f7f7f4;
 }
 
 button,
@@ -39,13 +40,13 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid #a83c2e;
+  outline: 3px solid #c94230;
   outline-offset: 4px;
 }
 
 ::selection {
-  color: #f7f1e4;
-  background: #a83c2e;
+  color: #f7f7f4;
+  background: #c94230;
 }
 
 .sr-only {
@@ -61,7 +62,7 @@ button {
 
 @media (prefers-contrast: more) {
   :focus-visible {
-    outline-color: #16252d;
+    outline-color: #171715;
     outline-width: 4px;
   }
 }

@@ -2,14 +2,14 @@
 
 [kuto87公式サイト](https://kuto87.github.io/) のソースコードです。
 
-京都で制作しているWebアプリ、ゲーム、CLIを、日英2言語で紹介する1ページ構成の作業記録です。工業用チャートレコーダーの連続記録紙をモチーフに、古紙・青黒・朱の3色と、常時流れる方眼・信号線で表現しています。
+京都で制作しているWebアプリ、ゲーム、CLIを、日英2言語で紹介する1ページ構成の個人サイトです。白い余白と大きなタイポグラフィ、`87`の輪郭から生成した点群背景で構成しています。
 
 ## 主な内容
 
-- 制作物5件を不揃いな作業ログとして紹介
+- 制作物5件をシンプルな一覧で紹介（3件は公開ページ、2件はリポジトリ）
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- CSSによる常時背景アニメーション（reduced motion時は停止）
+- 透過PNGとCSS transformによる低速の点群背景
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
@@ -48,7 +48,7 @@ npm run preview
 - デザイン: `src/App.css`
 - SEO / OGP: `index.html`
 - 英語版メタデータ: `en/index.html`
-- OGP画像: `public/og.png`
+- OGP画像: `public/og-particles.png`
 - サイトマップ: `public/sitemap.xml`
 
 作品を追加・削除した場合は、`src/data/site.ts`、`index.html`内のJSON-LD、作品件数の表示を合わせて更新してください。
