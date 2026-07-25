@@ -4,36 +4,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
-    <meta name="theme-color" content="#e8e0cf">
+    <meta name="theme-color" content="#f7f7f4">
     <link rel="icon" type="image/png" href="/favicon.png">
     <title>404 — KUTO</title>
     <style>
       * { box-sizing: border-box; }
-      :root { color: #16252d; background: #e8e0cf; font-family: Inter, "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif; }
-      body { min-height: 100svh; margin: 0; padding: 24px; display: grid; place-items: center; background-image: linear-gradient(rgba(49,95,113,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(49,95,113,.14) 1px, transparent 1px); background-size: 24px 24px; }
-      main { width: min(100%, 920px); border: 2px solid #16252d; background: rgba(247,241,228,.94); }
-      .top { display: flex; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid #16252d; color: #a83c2e; font: 800 12px/1 ui-monospace, monospace; letter-spacing: .1em; }
-      .body { display: grid; grid-template-columns: .85fr 1.15fr; min-height: 430px; }
-      .number { display: grid; place-items: center; border-right: 1px solid #16252d; color: #a83c2e; background-image: linear-gradient(rgba(49,95,113,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(49,95,113,.14) 1px, transparent 1px); background-size: 24px 24px; font-family: Georgia, "Yu Mincho", serif; font-size: clamp(7rem, 22vw, 14rem); font-weight: 700; letter-spacing: -.12em; line-height: .8; }
-      .copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(34px, 7vw, 72px); }
-      h1 { margin: 0; font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: clamp(2.4rem, 6vw, 5.2rem); font-weight: 600; letter-spacing: -.07em; line-height: 1.08; text-wrap: balance; }
-      p { margin: 24px 0 0; color: #45545a; line-height: 1.9; text-wrap: pretty; }
-      a { display: inline-flex; width: fit-content; min-height: 50px; align-items: center; gap: 28px; margin-top: 34px; padding: 0 18px; border: 1px solid #16252d; color: #f7f1e4; background: #a83c2e; font-weight: 800; text-decoration: none; }
-      a:focus-visible { outline: 3px solid #a83c2e; outline-offset: 4px; }
-      @media (max-width: 650px) { body { padding: 12px; } .body { grid-template-columns: 1fr; } .number { min-height: 200px; border-right: 0; border-bottom: 1px solid #16252d; } .copy { padding: 32px 24px 38px; } h1 { font-size: clamp(2.25rem, 12vw, 3.5rem); } }
+      :root { color: #171715; background: #f7f7f4; font-family: "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif; }
+      body { position: relative; min-height: 100svh; margin: 0; overflow-x: hidden; background: #f7f7f4; }
+      body::before { position: fixed; z-index: 0; top: 50%; right: -10vw; width: clamp(760px,72vw,1120px); aspect-ratio: 3/2; content: ""; background: url('/particle-87.png') center/contain no-repeat; opacity: .26; transform: translateY(-50%); }
+      header, main { position: relative; z-index: 1; width: min(calc(100% - 96px), 1280px); margin-inline: auto; }
+      header { display: flex; min-height: 92px; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(23,23,21,.28); font-size: .78rem; font-weight: 700; }
+      header strong { font-size: 1.35rem; letter-spacing: -.06em; }
+      header sup { margin-left: 2px; color: #c94230; font-size: .45em; vertical-align: super; }
+      main { display: flex; min-height: calc(100svh - 92px); flex-direction: column; justify-content: center; padding-block: 80px; }
+      .code { margin: 0 0 24px; color: #c94230; font-size: .78rem; font-weight: 700; }
+      h1 { max-width: 9em; margin: 0; font-size: clamp(4.5rem, 10vw, 9.5rem); font-weight: 520; letter-spacing: -.085em; line-height: .95; }
+      p { max-width: 520px; margin: 48px 0 0; color: #4f504c; font-size: 1rem; line-height: 1.9; }
+      a { display: inline-flex; width: min(100%, 230px); min-height: 50px; align-items: center; justify-content: space-between; margin-top: 40px; border-bottom: 1px solid #171715; color: #171715; font-size: .86rem; font-weight: 700; text-decoration: none; }
+      a:focus-visible { outline: 3px solid #c94230; outline-offset: 4px; }
+      @media (max-width: 620px) { body::before { top: 34%; right: -54vw; width: 138vw; opacity: .22; } header, main { width: calc(100% - 32px); } header { min-height: 74px; } main { min-height: calc(100svh - 74px); } h1 { font-size: clamp(3.4rem, 17vw, 5.2rem); } p { margin-top: 36px; } }
+      @media (forced-colors: active) { body::before { display: none; } }
     </style>
   </head>
   <body>
+    <header><strong>KUTO<sup>87</sup></strong><span>Page not found</span></header>
     <main>
-      <div class="top"><span>KUTO / 87</span><span>NOT FOUND</span></div>
-      <div class="body">
-        <div class="number" aria-hidden="true">404</div>
-        <div class="copy">
-          <h1>ここには、<br>記録がありません。</h1>
-          <p>URLが変わったか、ページが見つからないようです。公式サイトのトップから、公開中の作品をご覧ください。</p>
-          <a href="/">トップへ戻る <span aria-hidden="true">→</span></a>
-        </div>
-      </div>
+      <p class="code">404</p>
+      <h1>ページが<br>見つかりません。</h1>
+      <p>URLが変わったか、ページが削除されたようです。トップページから公開中の制作物をご覧ください。</p>
+      <a href="/">トップへ戻る <span aria-hidden="true">→</span></a>
     </main>
   </body>
 </html>
