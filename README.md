@@ -9,7 +9,7 @@
 - 制作物5件をシンプルな一覧で紹介（3件は公開ページ、2件はリポジトリ）
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- 透過PNGとCSS transformによる低速の点群背景
+- WebGL point spritesによるスクロール連動の点群背景（透過PNGフォールバック付き）
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
@@ -45,6 +45,8 @@ npm run preview
 
 - 文言・作品情報: `src/data/site.ts`
 - 画面構成: `src/App.tsx`
+- 点群の動き: `src/ParticleBackdrop.tsx`
+- 点群座標の再生成: `npm run generate:particles`
 - デザイン: `src/App.css`
 - SEO / OGP: `index.html`
 - 英語版メタデータ: `en/index.html`

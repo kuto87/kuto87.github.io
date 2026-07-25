@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import './App.css'
+import { ParticleBackdrop } from './ParticleBackdrop'
 import {
   copy,
   projects,
@@ -16,10 +17,6 @@ function detectLanguage(): Language {
 function navigateToLanguage(language: Language) {
   const targetPath = language === 'en' ? '/en/' : '/'
   window.location.assign(`${targetPath}${window.location.hash}`)
-}
-
-function ParticleBackdrop() {
-  return <div aria-hidden="true" className="particle-backdrop" />
 }
 
 function ExternalLink({
