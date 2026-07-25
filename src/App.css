@@ -17,28 +17,53 @@
   isolation: isolate;
 }
 
-.particle-backdrop {
+.particle-stage {
   position: fixed;
   z-index: 0;
+  inset: -16px;
+  overflow: hidden;
+  pointer-events: none;
+  animation: particle-stage-drift 70s ease-in-out infinite alternate;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 420ms ease;
+}
+
+.particle-fallback {
+  position: absolute;
   top: 50%;
   right: -10vw;
   width: clamp(760px, 72vw, 1120px);
   aspect-ratio: 3 / 2;
   background: url('/particle-87.png') center / contain no-repeat;
   opacity: 0.3;
-  pointer-events: none;
-  transform-origin: center;
-  animation: particle-drift 34s ease-in-out infinite alternate;
-  will-change: transform;
+  transform: translateY(-50%);
+  transition: opacity 420ms ease;
 }
 
-@keyframes particle-drift {
+.particle-stage.is-ready .particle-canvas {
+  opacity: 1;
+}
+
+.particle-stage.is-ready .particle-fallback {
+  opacity: 0;
+}
+
+@keyframes particle-stage-drift {
   from {
-    transform: translate(0, calc(-50% - 8px)) rotate(-1.5deg) scale(1);
+    transform: translate(-3px, -5px) rotate(-0.3deg);
   }
 
   to {
-    transform: translate(-16px, calc(-50% + 10px)) rotate(1.5deg) scale(1.02);
+    transform: translate(5px, 6px) rotate(0.3deg);
   }
 }
 
@@ -617,7 +642,7 @@
 }
 
 @media (max-width: 620px) {
-  .particle-backdrop {
+  .particle-fallback {
     top: 34%;
     right: -54vw;
     width: 138vw;
@@ -836,9 +861,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .particle-backdrop {
+  .particle-stage {
     animation: none;
-    transform: translateY(-50%);
+    transform: none;
+  }
+
+  .particle-canvas {
+    display: none;
+  }
+
+  .particle-stage.is-ready .particle-fallback {
+    opacity: 0.3;
   }
 
   *,
@@ -850,13 +883,13 @@
 }
 
 @media (forced-colors: active) {
-  .particle-backdrop {
+  .particle-stage {
     display: none;
   }
 }
 
 @media print {
-  .particle-backdrop,
+  .particle-stage,
   .site-nav,
   .language-switch,
   .skip-link {
