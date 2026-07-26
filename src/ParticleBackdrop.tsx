@@ -1,9 +1,14 @@
 import { useEffect, useRef } from 'react'
 
 const STAGE_PADDING = 16
+const DRIFT_START_PROGRESS = 0.9
+const DRIFT_TARGET_PROGRESS = 0.92
+const SCATTER_RESPONSE_SECONDS = 0.58
+const DESKTOP_DRIFT_FPS = 20
+const COARSE_POINTER_DRIFT_FPS = 12
 
 const VERTEX_SHADER = `
-  precision mediump float;
+  precision highp float;
 
   attribute vec2 aPosition;
   attribute vec2 aDirection;
@@ -17,19 +22,29 @@ const VERTEX_SHADER = `
   uniform float uTangent;
   uniform float uOpacity;
   uniform float uDpr;
+  uniform float uTime;
+  uniform float uDrift;
 
   varying float vOpacity;
 
   void main() {
     vec2 base = uBox.xy + aPosition * uBox.zw;
     vec2 center = uBox.xy + uBox.zw * 0.5;
-    float start = 0.02 + aSeed * 0.14;
-    float finish = 0.72 + aSeed * 0.18;
+    float start = 0.05 + aSeed * 0.18;
+    float finish = 0.80 + aSeed * 0.16;
     float scatter = smoothstep(start, finish, uProgress);
     float distanceVariation = mix(0.84, 1.18, fract(aSeed * 7.31));
     vec2 radial = (base - center) * uExpansion * distanceVariation * scatter;
     vec2 tangent = aDirection * uTangent * mix(0.35, 1.0, aSeed) * scatter * scatter;
-    vec2 position = base + radial + tangent;
+    float driftGate = smoothstep(0.84, 1.0, scatter);
+    float phase = aSeed * 43.982;
+    float driftSpeed = mix(0.085, 0.15, fract(aSeed * 9.17));
+    vec2 drift = vec2(
+      sin(uTime * driftSpeed + phase),
+      cos(uTime * driftSpeed * 0.73 + phase * 1.37)
+    );
+    drift *= uDrift * driftGate * mix(0.45, 1.0, fract(aSeed * 13.71));
+    vec2 position = base + radial + tangent + drift;
     vec2 clip = position / uResolution * 2.0 - 1.0;
 
     gl_Position = vec4(clip.x, -clip.y, 0.0, 1.0);
@@ -72,6 +87,22 @@ type ShaderLocations = {
   tangent: WebGLUniformLocation
   opacity: WebGLUniformLocation
   dpr: WebGLUniformLocation
+  time: WebGLUniformLocation
+  drift: WebGLUniformLocation
+}
+
+type RenderLayout = {
+  width: number
+  height: number
+  boxLeft: number
+  boxTop: number
+  boxWidth: number
+  boxHeight: number
+  expansion: number
+  tangent: number
+  opacity: number
+  dpr: number
+  drift: number
 }
 
 function clamp(value: number, minimum: number, maximum: number) {
@@ -156,6 +187,8 @@ function getLocations(gl: WebGLRenderingContext, program: WebGLProgram): ShaderL
     tangent: requireUniform(gl, program, 'uTangent'),
     opacity: requireUniform(gl, program, 'uOpacity'),
     dpr: requireUniform(gl, program, 'uDpr'),
+    time: requireUniform(gl, program, 'uTime'),
+    drift: requireUniform(gl, program, 'uDrift'),
   }
 }
 
@@ -170,18 +203,23 @@ export function ParticleBackdrop() {
 
     let disposed = false
     let animationFrame = 0
+    let animationTimer = 0
     let resizeFrame = 0
     let gl: WebGLRenderingContext | null = null
     let program: WebGLProgram | null = null
     let buffer: WebGLBuffer | null = null
     let locations: ShaderLocations | null = null
     let pointCloud: PointCloud | null = null
+    let renderLayout: RenderLayout | null = null
     let currentProgress = 0
     let targetProgress = 0
+    let driftTime = 0
+    let lastFrameTimestamp = 0
     let contextLost = false
     let initializing = false
     const pointRequest = new AbortController()
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const coarsePointer = window.matchMedia('(pointer: coarse)')
 
     const isMobile = () => window.innerWidth <= 620
 
@@ -194,16 +232,33 @@ export function ParticleBackdrop() {
 
     const getTargetProgress = () => {
       const start = window.innerHeight * 0.04
-      const distance = Math.max(window.innerHeight * (isMobile() ? 0.7 : 0.86), 460)
+      const distance = Math.max(window.innerHeight * (isMobile() ? 1.05 : 1.25), 560)
       return clamp((window.scrollY - start) / distance, 0, 1)
     }
 
+    const shouldDrift = () => (
+      currentProgress >= DRIFT_START_PROGRESS
+      && targetProgress >= DRIFT_TARGET_PROGRESS
+    )
+
+    const canAnimate = () => Boolean(
+      gl
+      && program
+      && buffer
+      && locations
+      && pointCloud
+      && !contextLost
+    )
+
     const stopAnimation = () => {
       if (animationFrame) cancelAnimationFrame(animationFrame)
+      if (animationTimer) window.clearTimeout(animationTimer)
       animationFrame = 0
+      animationTimer = 0
+      lastFrameTimestamp = 0
     }
 
-    const resize = () => {
+    const updateRenderLayout = () => {
       if (!gl) return
       const dpr = getDpr()
       const cssWidth = canvas.clientWidth
@@ -216,14 +271,6 @@ export function ParticleBackdrop() {
         canvas.height = height
       }
       gl.viewport(0, 0, width, height)
-    }
-
-    const draw = () => {
-      if (!gl || !program || !buffer || !locations || !pointCloud || contextLost) return
-
-      resize()
-      const width = canvas.clientWidth
-      const height = canvas.clientHeight
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
       const mobile = isMobile()
@@ -235,39 +282,99 @@ export function ParticleBackdrop() {
         ? STAGE_PADDING + viewportWidth * 1.54 - boxWidth
         : STAGE_PADDING + viewportWidth * 1.1 - boxWidth
       const boxCenterY = STAGE_PADDING + viewportHeight * (mobile ? 0.34 : 0.5)
-      const dpr = getDpr()
+
+      renderLayout = {
+        width: cssWidth,
+        height: cssHeight,
+        boxLeft,
+        boxTop: boxCenterY - boxHeight / 2,
+        boxWidth,
+        boxHeight,
+        expansion: mobile ? 1.15 : 2.25,
+        tangent: mobile ? 10 : 18,
+        opacity: mobile ? 0.24 : 0.3,
+        dpr,
+        drift: mobile ? 3.5 : 7,
+      }
+    }
+
+    const draw = () => {
+      if (!gl || !program || !buffer || !locations || !pointCloud || contextLost) return
+
+      if (!renderLayout) updateRenderLayout()
+      if (!renderLayout) return
 
       gl.clearColor(0, 0, 0, 0)
       gl.clear(gl.COLOR_BUFFER_BIT)
       gl.useProgram(program)
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-      gl.uniform2f(locations.resolution, width, height)
-      gl.uniform4f(locations.box, boxLeft, boxCenterY - boxHeight / 2, boxWidth, boxHeight)
+      gl.uniform2f(locations.resolution, renderLayout.width, renderLayout.height)
+      gl.uniform4f(
+        locations.box,
+        renderLayout.boxLeft,
+        renderLayout.boxTop,
+        renderLayout.boxWidth,
+        renderLayout.boxHeight,
+      )
       gl.uniform1f(locations.progress, currentProgress)
-      gl.uniform1f(locations.expansion, mobile ? 1.15 : 2.25)
-      gl.uniform1f(locations.tangent, mobile ? 10 : 18)
-      gl.uniform1f(locations.opacity, mobile ? 0.24 : 0.3)
-      gl.uniform1f(locations.dpr, dpr)
+      gl.uniform1f(locations.expansion, renderLayout.expansion)
+      gl.uniform1f(locations.tangent, renderLayout.tangent)
+      gl.uniform1f(locations.opacity, renderLayout.opacity)
+      gl.uniform1f(locations.dpr, renderLayout.dpr)
+      gl.uniform1f(locations.time, driftTime)
+      gl.uniform1f(locations.drift, renderLayout.drift)
       gl.drawArrays(gl.POINTS, 0, pointCloud.count)
     }
 
-    const animate = () => {
+    const animate = (timestamp: number) => {
       animationFrame = 0
-      if (disposed || document.hidden || reducedMotion.matches) return
+      if (disposed || document.hidden || reducedMotion.matches || !canAnimate()) {
+        stopAnimation()
+        return
+      }
+
+      const elapsedSeconds = lastFrameTimestamp
+        ? Math.min((timestamp - lastFrameTimestamp) / 1000, 0.1)
+        : 0
+      lastFrameTimestamp = timestamp
 
       const difference = targetProgress - currentProgress
-      currentProgress += difference * 0.16
-      if (Math.abs(difference) < 0.001) currentProgress = targetProgress
+      const response = 1 - Math.exp(-elapsedSeconds / SCATTER_RESPONSE_SECONDS)
+      currentProgress += difference * response
+      if (Math.abs(difference) < 0.0005) currentProgress = targetProgress
+      if (shouldDrift()) driftTime += elapsedSeconds
       draw()
 
       if (currentProgress !== targetProgress) {
-        animationFrame = requestAnimationFrame(animate)
+        startAnimation(true)
+      } else if (shouldDrift()) {
+        startAnimation(false)
+      } else {
+        lastFrameTimestamp = 0
       }
     }
 
-    const startAnimation = () => {
-      if (!animationFrame && !document.hidden && !reducedMotion.matches) {
+    const startAnimation = (immediate = true) => {
+      if (disposed || document.hidden || reducedMotion.matches || !canAnimate()) return
+
+      if (immediate && animationTimer) {
+        window.clearTimeout(animationTimer)
+        animationTimer = 0
+      }
+      if (animationFrame || animationTimer) return
+
+      if (immediate) {
         animationFrame = requestAnimationFrame(animate)
+      } else {
+        const frameRate = coarsePointer.matches
+          ? COARSE_POINTER_DRIFT_FPS
+          : DESKTOP_DRIFT_FPS
+        animationTimer = window.setTimeout(() => {
+          animationTimer = 0
+          if (!disposed && !document.hidden && !reducedMotion.matches) {
+            animationFrame = requestAnimationFrame(animate)
+          }
+        }, 1000 / frameRate)
       }
     }
 
@@ -280,9 +387,11 @@ export function ParticleBackdrop() {
       if (resizeFrame) cancelAnimationFrame(resizeFrame)
       resizeFrame = requestAnimationFrame(() => {
         resizeFrame = 0
+        renderLayout = null
         targetProgress = getTargetProgress()
-        currentProgress = targetProgress
+        if (reducedMotion.matches) return
         draw()
+        if (currentProgress !== targetProgress || shouldDrift()) startAnimation(true)
       })
     }
 
@@ -302,8 +411,10 @@ export function ParticleBackdrop() {
       } else if (gl && program && buffer && locations && !contextLost) {
         currentProgress = getTargetProgress()
         targetProgress = currentProgress
+        renderLayout = null
         draw()
         stage.classList.add('is-ready')
+        if (shouldDrift()) startAnimation(true)
       } else {
         void initialize()
       }
@@ -339,6 +450,7 @@ export function ParticleBackdrop() {
       })
       if (!gl) throw new Error('WebGL is unavailable')
 
+      renderLayout = null
       program = createProgram(gl)
       gl.enable(gl.BLEND)
       gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
@@ -348,7 +460,10 @@ export function ParticleBackdrop() {
       targetProgress = currentProgress
       draw()
 
-      if (!reducedMotion.matches) stage.classList.add('is-ready')
+      if (!reducedMotion.matches) {
+        stage.classList.add('is-ready')
+        if (shouldDrift()) startAnimation(true)
+      }
     }
 
     const onContextLost = (event: Event) => {
@@ -364,6 +479,7 @@ export function ParticleBackdrop() {
       program = null
       buffer = null
       locations = null
+      renderLayout = null
 
       try {
         setupWebGL()

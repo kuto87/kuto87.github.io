@@ -23,9 +23,6 @@
   inset: -16px;
   overflow: hidden;
   pointer-events: none;
-  animation: particle-stage-drift 70s ease-in-out infinite alternate;
-  transform-origin: center;
-  will-change: transform;
 }
 
 .particle-canvas {
@@ -55,16 +52,6 @@
 
 .particle-stage.is-ready .particle-fallback {
   opacity: 0;
-}
-
-@keyframes particle-stage-drift {
-  from {
-    transform: translate(-3px, -5px) rotate(-0.3deg);
-  }
-
-  to {
-    transform: translate(5px, 6px) rotate(0.3deg);
-  }
 }
 
 .site-header,
@@ -861,11 +848,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .particle-stage {
-    animation: none;
-    transform: none;
-  }
-
   .particle-canvas {
     display: none;
   }
