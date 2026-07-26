@@ -6,6 +6,8 @@ const DESKTOP_IDLE_FPS = 18
 const COARSE_POINTER_IDLE_FPS = 10
 const DESKTOP_ROAM_FPS = 24
 const COARSE_POINTER_ROAM_FPS = 16
+const MOBILE_BOX_WIDTH_RATIO = 1.18
+const MOBILE_POINT_CLOUD_RIGHT_EDGE = 0.9
 
 const VERTEX_SHADER = `
   precision highp float;
@@ -289,13 +291,13 @@ export function ParticleBackdrop() {
       const viewportHeight = window.innerHeight
       const mobile = isMobile()
       const boxWidth = mobile
-        ? viewportWidth * 1.38
+        ? viewportWidth * MOBILE_BOX_WIDTH_RATIO
         : clamp(viewportWidth * 0.72, 760, 1120)
       const boxHeight = boxWidth * (2 / 3)
       const boxLeft = mobile
-        ? STAGE_PADDING + viewportWidth * 1.54 - boxWidth
+        ? viewportWidth - boxWidth * MOBILE_POINT_CLOUD_RIGHT_EDGE
         : STAGE_PADDING + viewportWidth * 1.1 - boxWidth
-      const boxCenterY = STAGE_PADDING + viewportHeight * (mobile ? 0.34 : 0.5)
+      const boxCenterY = STAGE_PADDING + viewportHeight * (mobile ? 0.3 : 0.5)
 
       renderLayout = {
         width: cssWidth,
