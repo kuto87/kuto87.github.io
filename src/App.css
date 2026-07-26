@@ -2,6 +2,10 @@
   min-height: 100vh;
 }
 
+html:lang(ja) {
+  word-break: auto-phrase;
+}
+
 .page {
   --paper: #f7f7f4;
   --ink: #171715;
@@ -194,7 +198,7 @@
   padding-block: clamp(180px, 17vh, 230px) clamp(70px, 10vh, 110px);
 }
 
-.hero-location {
+.hero-kicker {
   margin: 0 0 clamp(58px, 9vh, 98px);
   color: var(--muted);
   font-size: 0.78rem;
@@ -677,7 +681,7 @@
     padding-block: 128px 62px;
   }
 
-  .hero-location {
+  .hero-kicker {
     margin-bottom: 58px;
     font-size: 0.7rem;
   }
@@ -687,6 +691,15 @@
     max-width: 7.2em;
     font-size: clamp(2.25rem, 12.2vw, 3.6rem);
     letter-spacing: -0.075em;
+  }
+
+  :lang(ja) .hero h1 {
+    max-width: 100%;
+    font-size: clamp(2.25rem, 11.5vw, 3.6rem);
+  }
+
+  :lang(ja) .hero .text-lines > span {
+    white-space: nowrap;
   }
 
   :lang(en) .hero h1 {
