@@ -102,7 +102,7 @@ function Hero({ language }: { language: Language }) {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <p className="hero-location">{t.hero.location}</p>
+      <p className="hero-kicker">{t.hero.kicker}</p>
       <h1 id="hero-title">
         <TextLines text={t.hero.title} />
       </h1>
@@ -219,10 +219,6 @@ function About({ language }: { language: Language }) {
         <div className="about-note">
           <p>{t.about.note}</p>
           <dl>
-            <div>
-              <dt>{t.about.locationLabel}</dt>
-              <dd>{t.about.location}</dd>
-            </div>
             <div>
               <dt>{t.about.stackLabel}</dt>
               <dd>React / TypeScript / Python / Firebase</dd>
