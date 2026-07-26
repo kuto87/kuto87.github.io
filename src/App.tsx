@@ -148,10 +148,12 @@ function ProjectTitle({ title }: { title: string }) {
 
 function ProjectRow({ language, project }: { language: Language; project: Project }) {
   const t = copy[language]
-  const label = `${project.title}: ${project.cta[language]}. ${t.external}`
+  const label = project.cta
+    ? `${project.title}: ${project.cta[language]}. ${t.external}`
+    : undefined
 
   return (
-    <article className="project-row">
+    <article className="project-row" id={project.id}>
       <header className="project-heading">
         <span className="project-index" aria-hidden="true">{project.index}</span>
         <div>
@@ -176,9 +178,11 @@ function ProjectRow({ language, project }: { language: Language; project: Projec
             <dd>{project.tags.join(' / ')}</dd>
           </div>
         </dl>
-        <ExternalLink className="project-open" href={project.link} label={label}>
-          {project.cta[language]}<span aria-hidden="true">↗</span>
-        </ExternalLink>
+        {project.link && project.cta && label && (
+          <ExternalLink className="project-open" href={project.link} label={label}>
+            {project.cta[language]}<span aria-hidden="true">↗</span>
+          </ExternalLink>
+        )}
       </div>
     </article>
   )

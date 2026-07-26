@@ -29,6 +29,7 @@ const VERTEX_SHADER = `
   uniform float uDrift;
 
   varying float vOpacity;
+  varying float vAccent;
 
   void main() {
     vec2 base = uBox.xy + aPosition * uBox.zw;
@@ -36,6 +37,8 @@ const VERTEX_SHADER = `
     float start = 0.05 + aSeed * 0.18;
     float finish = 0.80 + aSeed * 0.16;
     float scatter = smoothstep(start, finish, uProgress);
+    float accentNoise = fract(aSeed * 37.11);
+    vAccent = smoothstep(0.88, 0.97, accentNoise) * mix(0.36, 0.58, scatter);
     float distanceVariation = mix(0.84, 1.18, fract(aSeed * 7.31));
     vec2 radial = (base - center) * uExpansion * distanceVariation * scatter;
     vec2 tangent = aDirection * uTangent * mix(0.35, 1.0, aSeed) * scatter * scatter;
@@ -75,6 +78,7 @@ const FRAGMENT_SHADER = `
   precision mediump float;
 
   varying float vOpacity;
+  varying float vAccent;
 
   void main() {
     float distanceFromCenter = distance(gl_PointCoord, vec2(0.5));
@@ -82,7 +86,10 @@ const FRAGMENT_SHADER = `
     float alpha = vOpacity * edge;
 
     if (edge <= 0.0) discard;
-    gl_FragColor = vec4(vec3(0.09, 0.09, 0.08) * alpha, alpha);
+    vec3 ink = vec3(0.09, 0.09, 0.08);
+    vec3 accent = vec3(0.788, 0.259, 0.188);
+    vec3 color = mix(ink, accent, vAccent);
+    gl_FragColor = vec4(color * alpha, alpha);
   }
 `
 
