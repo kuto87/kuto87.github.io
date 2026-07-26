@@ -631,7 +631,7 @@
 @media (max-width: 620px) {
   .particle-fallback {
     top: 30%;
-    right: -4vw;
+    right: -6vw;
     width: 118vw;
     opacity: 0.24;
   }
