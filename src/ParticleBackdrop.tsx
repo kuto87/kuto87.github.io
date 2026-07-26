@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 
 const STAGE_PADDING = 16
-const DRIFT_START_PROGRESS = 0.9
-const DRIFT_TARGET_PROGRESS = 0.92
+const DRIFT_START_PROGRESS = 0.7
+const DRIFT_TARGET_PROGRESS = 0.74
 const SCATTER_RESPONSE_SECONDS = 0.58
 const DESKTOP_DRIFT_FPS = 20
 const COARSE_POINTER_DRIFT_FPS = 12
@@ -36,14 +36,14 @@ const VERTEX_SHADER = `
     float distanceVariation = mix(0.84, 1.18, fract(aSeed * 7.31));
     vec2 radial = (base - center) * uExpansion * distanceVariation * scatter;
     vec2 tangent = aDirection * uTangent * mix(0.35, 1.0, aSeed) * scatter * scatter;
-    float driftGate = smoothstep(0.84, 1.0, scatter);
+    float driftGate = smoothstep(0.70, 0.95, scatter);
     float phase = aSeed * 43.982;
-    float driftSpeed = mix(0.085, 0.15, fract(aSeed * 9.17));
-    vec2 drift = vec2(
-      sin(uTime * driftSpeed + phase),
-      cos(uTime * driftSpeed * 0.73 + phase * 1.37)
-    );
-    drift *= uDrift * driftGate * mix(0.45, 1.0, fract(aSeed * 13.71));
+    float driftSpeed = mix(0.20, 0.30, fract(aSeed * 9.17));
+    float spin = step(0.5, fract(aSeed * 17.23)) * 2.0 - 1.0;
+    float driftAngle = phase + uTime * driftSpeed * spin;
+    vec2 driftNormal = vec2(-aDirection.y, aDirection.x);
+    vec2 drift = aDirection * cos(driftAngle) + driftNormal * sin(driftAngle) * 0.72;
+    drift *= uDrift * driftGate * mix(0.70, 1.0, fract(aSeed * 13.71));
     vec2 position = base + radial + tangent + drift;
     vec2 clip = position / uResolution * 2.0 - 1.0;
 
@@ -51,7 +51,7 @@ const VERTEX_SHADER = `
     gl_PointSize = max(2.1 * uDpr, aRadius * 2.0 * (uBox.z / 1200.0) * uDpr);
 
     float textColumnFade = mix(0.55, 1.0, smoothstep(0.30, 0.58, position.x / uResolution.x));
-    vOpacity = uOpacity * mix(1.0, 0.58 * textColumnFade, scatter);
+    vOpacity = uOpacity * mix(1.0, 0.72 * textColumnFade, scatter);
   }
 `
 
@@ -294,7 +294,7 @@ export function ParticleBackdrop() {
         tangent: mobile ? 10 : 18,
         opacity: mobile ? 0.24 : 0.3,
         dpr,
-        drift: mobile ? 3.5 : 7,
+        drift: mobile ? 10 : 16,
       }
     }
 
