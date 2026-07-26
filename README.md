@@ -9,7 +9,7 @@
 - 制作物5件をシンプルな一覧で紹介（3件は公開ページ、2件はリポジトリ）
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- WebGL point spritesによる緩やかなスクロール散開と、散開後に点ごとに漂う背景（透過PNGフォールバック付き）
+- WebGL point spritesによる87を保つ微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
