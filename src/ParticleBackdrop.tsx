@@ -43,7 +43,7 @@ const VERTEX_SHADER = `
     float spin = step(0.5, fract(aSeed * 17.23)) * 2.0 - 1.0;
     vec2 driftNormal = vec2(-aDirection.y, aDirection.x);
 
-    float idleSpeed = mix(0.28, 0.46, fract(aSeed * 9.17));
+    float idleSpeed = mix(0.50, 0.78, fract(aSeed * 9.17));
     float idleAngle = phase + uTime * idleSpeed * spin;
     vec2 idleMotion = aDirection * cos(idleAngle) + driftNormal * sin(idleAngle) * 0.68;
     idleMotion *= uIdleDrift * mix(0.72, 1.0, fract(aSeed * 13.71));
@@ -310,7 +310,7 @@ export function ParticleBackdrop() {
         tangent: mobile ? 10 : 18,
         opacity: mobile ? 0.24 : 0.3,
         dpr,
-        idleDrift: mobile ? 1.6 : 2.2,
+        idleDrift: mobile ? 2.0 : 2.8,
         drift: mobile ? 22 : 34,
       }
     }
