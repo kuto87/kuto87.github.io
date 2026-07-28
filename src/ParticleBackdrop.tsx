@@ -29,7 +29,7 @@ const VERTEX_SHADER = `
   uniform float uDrift;
 
   varying float vOpacity;
-  varying float vAccent;
+  varying vec3 vColor;
 
   void main() {
     vec2 base = uBox.xy + aPosition * uBox.zw;
@@ -37,8 +37,16 @@ const VERTEX_SHADER = `
     float start = 0.05 + aSeed * 0.18;
     float finish = 0.80 + aSeed * 0.16;
     float scatter = smoothstep(start, finish, uProgress);
-    float accentNoise = fract(aSeed * 37.11);
-    vAccent = smoothstep(0.88, 0.97, accentNoise) * mix(0.36, 0.58, scatter);
+    float colorNoise = fract(aSeed * 53.17 + 0.137);
+    float redMask = 1.0 - step(0.08, colorNoise);
+    float blueMask = step(0.08, colorNoise) * (1.0 - step(0.16, colorNoise));
+    float ochreMask = step(0.16, colorNoise) * (1.0 - step(0.24, colorNoise));
+    float colorStrength = mix(0.82, 0.96, scatter);
+    vec3 ink = vec3(0.09, 0.09, 0.08);
+    vColor = ink;
+    vColor = mix(vColor, vec3(0.788, 0.259, 0.188), redMask * colorStrength);
+    vColor = mix(vColor, vec3(0.176, 0.365, 0.561), blueMask * colorStrength);
+    vColor = mix(vColor, vec3(0.718, 0.482, 0.110), ochreMask * colorStrength);
     float distanceVariation = mix(0.84, 1.18, fract(aSeed * 7.31));
     vec2 radial = (base - center) * uExpansion * distanceVariation * scatter;
     vec2 tangent = aDirection * uTangent * mix(0.35, 1.0, aSeed) * scatter * scatter;
@@ -78,7 +86,7 @@ const FRAGMENT_SHADER = `
   precision mediump float;
 
   varying float vOpacity;
-  varying float vAccent;
+  varying vec3 vColor;
 
   void main() {
     float distanceFromCenter = distance(gl_PointCoord, vec2(0.5));
@@ -86,10 +94,7 @@ const FRAGMENT_SHADER = `
     float alpha = vOpacity * edge;
 
     if (edge <= 0.0) discard;
-    vec3 ink = vec3(0.09, 0.09, 0.08);
-    vec3 accent = vec3(0.788, 0.259, 0.188);
-    vec3 color = mix(ink, accent, vAccent);
-    gl_FragColor = vec4(color * alpha, alpha);
+    gl_FragColor = vec4(vColor * alpha, alpha);
   }
 `
 
