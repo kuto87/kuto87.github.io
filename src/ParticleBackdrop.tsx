@@ -41,7 +41,9 @@ const VERTEX_SHADER = `
     float redMask = 1.0 - step(0.08, colorNoise);
     float blueMask = step(0.08, colorNoise) * (1.0 - step(0.16, colorNoise));
     float ochreMask = step(0.16, colorNoise) * (1.0 - step(0.24, colorNoise));
-    float colorStrength = mix(0.82, 0.96, scatter);
+    float isColored = redMask + blueMask + ochreMask;
+    float colorStrength = mix(0.94, 1.0, scatter);
+    float colorOpacityBoost = mix(1.34, 1.48, scatter);
     vec3 ink = vec3(0.09, 0.09, 0.08);
     vColor = ink;
     vColor = mix(vColor, vec3(0.788, 0.259, 0.188), redMask * colorStrength);
@@ -78,7 +80,8 @@ const VERTEX_SHADER = `
     gl_PointSize = max(2.1 * uDpr, aRadius * 2.0 * (uBox.z / 1200.0) * uDpr);
 
     float textColumnFade = mix(0.55, 1.0, smoothstep(0.30, 0.58, position.x / uResolution.x));
-    vOpacity = uOpacity * mix(1.0, 0.72 * textColumnFade, scatter);
+    float particleOpacity = uOpacity * mix(1.0, 0.72 * textColumnFade, scatter);
+    vOpacity = particleOpacity * mix(1.0, colorOpacityBoost, isColored);
   }
 `
 
