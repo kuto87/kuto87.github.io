@@ -9,7 +9,7 @@
 - 開発中・公開中の制作物から4件を選んで紹介
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- 墨色を基調に一部だけ赤を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
+- 墨色を基調に一部へ赤・青・黄を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
