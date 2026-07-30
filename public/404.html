@@ -10,7 +10,7 @@
     <style>
       * { box-sizing: border-box; }
       :root { color: #1b1a17; background: #f2eee3; font-family: "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", sans-serif; }
-      body { position: relative; min-height: 100svh; margin: 0; overflow-x: hidden; background: #f2eee3; }
+      body { position: relative; min-height: 100svh; margin: 0; overflow-x: hidden; background: linear-gradient(112deg, rgba(194,135,36,.12) 0 18%, transparent 18% 52%, rgba(36,92,128,.18) 52% 82%, rgba(185,67,50,.12) 82% 100%), #f2eee3; }
       body::before { position: fixed; z-index: 0; top: 50%; right: -10vw; width: clamp(760px,72vw,1120px); aspect-ratio: 3/2; content: ""; background: url('/particle-87.png') center/contain no-repeat; opacity: .26; transform: translateY(-50%); }
       header, main { position: relative; z-index: 1; width: min(calc(100% - 96px), 1280px); margin-inline: auto; }
       header { display: flex; min-height: 92px; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(27,26,23,.26); font-size: .78rem; font-weight: 700; }
@@ -22,7 +22,7 @@
       p { max-width: 520px; margin: 48px 0 0; color: #4f504c; font-size: 1rem; line-height: 1.9; }
       a { display: inline-flex; width: min(100%, 230px); min-height: 50px; align-items: center; justify-content: space-between; margin-top: 40px; border-bottom: 1px solid #1b1a17; color: #1b1a17; font-size: .86rem; font-weight: 700; text-decoration: none; }
       a:focus-visible { outline: 3px solid #b94332; outline-offset: 4px; }
-      @media (max-width: 620px) { body::before { top: 34%; right: -54vw; width: 138vw; opacity: .22; } header, main { width: calc(100% - 32px); } header { min-height: 74px; } main { min-height: calc(100svh - 74px); } h1 { font-size: clamp(2.9rem, 13vw, 4rem); } p { margin-top: 36px; } }
+      @media (max-width: 620px) { body { background: linear-gradient(102deg, rgba(194,135,36,.08) 0 14%, transparent 14% 58%, rgba(36,92,128,.14) 58% 88%, rgba(185,67,50,.1) 88% 100%), #f2eee3; } body::before { top: 34%; right: -54vw; width: 138vw; opacity: .22; } header, main { width: calc(100% - 32px); } header { min-height: 74px; } main { min-height: calc(100svh - 74px); } h1 { font-size: clamp(2.9rem, 13vw, 4rem); } p { margin-top: 36px; } }
       @media (forced-colors: active) { body::before { display: none; } }
     </style>
   </head>
