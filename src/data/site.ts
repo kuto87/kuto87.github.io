@@ -47,8 +47,8 @@ export const copy = {
     languageLabel: '表示言語',
     external: '新しいタブで開きます',
     hero: {
-      kicker: 'kuto87 / 個人制作',
-      title: '作ったものと、\n作っているもの。',
+      kicker: 'PERSONAL PROJECTS',
+      title: 'KUTO87',
       text: '遊んでみたいと思ったゲームや、作業の中で必要になったツールを作っています。ここでは、いま開発しているものと、ブラウザやGitHubで公開しているものをまとめています。',
       action: '作ったものを見る',
     },
@@ -85,8 +85,8 @@ export const copy = {
     languageLabel: 'Display language',
     external: 'Opens in a new tab',
     hero: {
-      kicker: 'kuto87 / Personal projects',
-      title: 'What I’ve been\nworking on.',
+      kicker: 'PERSONAL PROJECTS',
+      title: 'KUTO87',
       text: 'I make games and developer tools as personal projects. This page is a record of four recent projects: two mobile games, a browser game, and a command-line tool.',
       action: 'See what I’m making',
     },

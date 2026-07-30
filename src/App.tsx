@@ -66,10 +66,22 @@ function Header({
   onLanguageChange: (language: Language) => void
 }) {
   const t = copy[language]
+  const [isScrolled, setIsScrolled] = useState(() => window.scrollY > 32)
+
+  useEffect(() => {
+    const updateHeader = () => setIsScrolled(window.scrollY > 32)
+    window.addEventListener('scroll', updateHeader, { passive: true })
+    return () => window.removeEventListener('scroll', updateHeader)
+  }, [])
 
   return (
-    <header className="site-header">
-      <a className="wordmark" href="#top">
+    <header className={`site-header${isScrolled ? ' is-scrolled' : ''}`}>
+      <a
+        aria-hidden={!isScrolled}
+        className="wordmark"
+        href="#top"
+        tabIndex={isScrolled ? 0 : -1}
+      >
         KUTO<sup>87</sup>
       </a>
 
@@ -102,10 +114,12 @@ function Hero({ language }: { language: Language }) {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <p className="hero-kicker">{t.hero.kicker}</p>
-      <h1 id="hero-title">
-        <TextLines text={t.hero.title} />
-      </h1>
+      <div className="hero-mark">
+        <h1 id="hero-title">
+          <TextLines text={t.hero.title} />
+        </h1>
+        <p className="hero-kicker">{t.hero.kicker}</p>
+      </div>
       <div className="hero-foot">
         <p>{t.hero.text}</p>
         <a className="quiet-link" href="#works">
