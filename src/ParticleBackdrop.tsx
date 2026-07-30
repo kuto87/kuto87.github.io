@@ -309,12 +309,17 @@ export function ParticleBackdrop() {
       const mobile = isMobile()
       const boxWidth = mobile
         ? viewportWidth * MOBILE_BOX_WIDTH_RATIO
-        : clamp(viewportWidth * 0.72, 760, 1120)
-      const boxHeight = boxWidth * (2 / 3)
+        : clamp(viewportWidth * 0.58, 720, 1120)
+      const boxHeight = mobile
+        ? boxWidth * (2 / 3)
+        : Math.min(boxWidth * 0.99, viewportHeight * 1.04)
       const boxLeft = mobile
         ? viewportWidth - boxWidth * MOBILE_POINT_CLOUD_RIGHT_EDGE
-        : STAGE_PADDING + viewportWidth * 1.1 - boxWidth
-      const boxCenterY = STAGE_PADDING + viewportHeight * (mobile ? 0.3 : 0.5)
+        : STAGE_PADDING + viewportWidth - boxWidth
+      const mobileBoxTop = viewportWidth <= 360 ? 236 : 214
+      const boxCenterY = mobile
+        ? STAGE_PADDING + mobileBoxTop + boxHeight / 2
+        : STAGE_PADDING + viewportHeight * 0.525
 
       renderLayout = {
         width: cssWidth,
@@ -325,7 +330,7 @@ export function ParticleBackdrop() {
         boxHeight,
         expansion: mobile ? 1.15 : 2.25,
         tangent: mobile ? 10 : 18,
-        opacity: mobile ? 0.24 : 0.3,
+        opacity: mobile ? 0.36 : (viewportWidth <= 900 ? 0.42 : 0.52),
         dpr,
         idleDrift: mobile ? 2.5 : 3.4,
         drift: mobile ? 26 : 40,
