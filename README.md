@@ -2,14 +2,14 @@
 
 [kuto87公式サイト](https://kuto87.github.io/) のソースコードです。
 
-個人で作ったゲームやCLIと、現在制作中のものを日英2言語でまとめる1ページ構成のサイトです。白い余白と大きなタイポグラフィ、`87`の輪郭から生成した点群背景で構成しています。
+個人で作ったゲームやCLIと、現在制作中のものを日英2言語でまとめる1ページ構成のサイトです。暖かな紙色、抑えたタイポグラフィ、`87`の輪郭から生成した点群背景で構成しています。
 
 ## 主な内容
 
 - 開発中・公開中の制作物から4件を選んで紹介
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- 墨色を基調に一部へ赤・青・黄を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
+- 墨色を基調に一部へ赤・青・緑・黄土を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
@@ -50,7 +50,7 @@ npm run preview
 - デザイン: `src/App.css`
 - SEO / OGP: `index.html`
 - 英語版メタデータ: `en/index.html`
-- OGP画像: `public/og-particles.png`
+- OGP画像: `public/og-particles-v2.png`
 - サイトマップ: `public/sitemap.xml`
 
 作品を追加・削除した場合は、`src/data/site.ts`、`index.html`内のJSON-LD、作品件数の表示を合わせて更新してください。

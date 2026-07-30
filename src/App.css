@@ -7,12 +7,12 @@ html:lang(ja) {
 }
 
 .page {
-  --paper: #f7f7f4;
-  --ink: #171715;
-  --muted: #6d6e69;
-  --line: rgba(23, 23, 21, 0.24);
-  --line-strong: rgba(23, 23, 21, 0.62);
-  --accent: #c94230;
+  --paper: #f2eee3;
+  --ink: #1b1a17;
+  --muted: #65635d;
+  --line: rgba(27, 26, 23, 0.22);
+  --line-strong: rgba(27, 26, 23, 0.58);
+  --accent: #b94332;
   position: relative;
   min-height: 100vh;
   overflow: clip;
@@ -101,7 +101,7 @@ html:lang(ja) {
   align-items: center;
   gap: clamp(24px, 4vw, 62px);
   border-bottom: 1px solid var(--line);
-  background: rgba(247, 247, 244, 0.94);
+  background: rgba(242, 238, 227, 0.94);
 }
 
 .wordmark {
@@ -194,12 +194,12 @@ html:lang(ja) {
   display: flex;
   min-height: 100svh;
   flex-direction: column;
-  justify-content: space-between;
-  padding-block: clamp(180px, 17vh, 230px) clamp(70px, 10vh, 110px);
+  justify-content: flex-start;
+  padding-block: clamp(144px, 14vh, 176px) clamp(56px, 7vh, 80px);
 }
 
 .hero-kicker {
-  margin: 0 0 clamp(58px, 9vh, 98px);
+  margin: 0 0 clamp(28px, 4vh, 40px);
   color: var(--muted);
   font-size: 0.78rem;
   font-weight: 620;
@@ -207,19 +207,19 @@ html:lang(ja) {
 }
 
 .hero h1 {
-  max-width: 9.6em;
+  max-width: 8.2em;
   margin: 0;
   font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-  font-size: clamp(4.5rem, 8vw, 8.3rem);
-  font-weight: 520;
-  letter-spacing: -0.085em;
-  line-height: 0.99;
+  font-size: clamp(3.75rem, 5.6vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
 }
 
 :lang(en) .hero h1 {
-  max-width: 10.5em;
-  font-size: clamp(4.5rem, 8.2vw, 8.7rem);
-  letter-spacing: -0.075em;
+  max-width: 8.5em;
+  font-size: clamp(3.75rem, 5.8vw, 6.2rem);
+  letter-spacing: -0.04em;
 }
 
 .text-lines > span {
@@ -228,24 +228,27 @@ html:lang(ja) {
 
 .hero-foot {
   display: grid;
-  grid-template-columns: minmax(0, 640px) auto;
-  align-items: end;
-  justify-content: space-between;
-  gap: 44px;
-  margin-top: clamp(88px, 14vh, 160px);
+  width: min(100%, 560px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  justify-content: start;
+  gap: 28px;
+  margin-top: auto;
+  padding-top: clamp(56px, 8vh, 88px);
 }
 
 .hero-foot > p {
   margin: 0;
   color: #363633;
   font-size: clamp(1rem, 1.25vw, 1.15rem);
-  line-height: 2;
+  line-height: 1.75;
   text-wrap: pretty;
 }
 
 .quiet-link {
   display: inline-flex;
-  min-width: 180px;
+  width: min(100%, 220px);
+  min-width: 0;
   min-height: 48px;
   align-items: center;
   justify-content: space-between;
@@ -580,12 +583,12 @@ html:lang(ja) {
   }
 
   .hero {
-    padding-top: 154px;
+    padding-top: 138px;
   }
 
   .hero h1,
   :lang(en) .hero h1 {
-    font-size: clamp(3.75rem, 12.2vw, 6.2rem);
+    font-size: clamp(3rem, 8vw, 4rem);
   }
 
   .hero-foot {
@@ -677,25 +680,24 @@ html:lang(ja) {
   }
 
   .hero {
-    min-height: 780px;
-    padding-block: 128px 62px;
+    min-height: max(720px, 100svh);
+    padding-block: 116px 48px;
   }
 
   .hero-kicker {
-    margin-bottom: 58px;
+    margin-bottom: 24px;
     font-size: 0.7rem;
   }
 
   .hero h1,
   :lang(en) .hero h1 {
     max-width: 7.2em;
-    font-size: clamp(2.25rem, 12.2vw, 3.6rem);
-    letter-spacing: -0.075em;
+    font-size: clamp(2.2rem, 9.6vw, 3.1rem);
+    letter-spacing: -0.045em;
   }
 
   :lang(ja) .hero h1 {
     max-width: 100%;
-    font-size: clamp(2.25rem, 11.5vw, 3.6rem);
   }
 
   :lang(ja) .hero .text-lines > span {
@@ -707,8 +709,9 @@ html:lang(ja) {
   }
 
   .hero-foot {
-    gap: 32px;
-    margin-top: 86px;
+    gap: 24px;
+    margin-top: auto;
+    padding-top: 48px;
   }
 
   .hero-foot > p {
@@ -845,13 +848,8 @@ html:lang(ja) {
   }
 
   .hero {
-    min-height: max(690px, calc(100svh - 112px));
-    padding-block: 96px 56px;
-  }
-
-  .hero h1,
-  :lang(en) .hero h1 {
-    font-size: clamp(2.2rem, 12.2vw, 2.75rem);
+    min-height: max(760px, 100svh);
+    padding-block: 144px 48px;
   }
 
   .about-layout,
