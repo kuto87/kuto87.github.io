@@ -162,42 +162,24 @@ function ProjectTitle({ title }: { title: string }) {
 
 function ProjectRow({ language, project }: { language: Language; project: Project }) {
   const t = copy[language]
-  const label = project.cta
-    ? `${project.title}: ${project.cta[language]}. ${t.external}`
-    : undefined
+  const title = <ProjectTitle title={project.title} />
 
   return (
     <article className="project-row" id={project.id}>
-      <header className="project-heading">
-        <span className="project-index" aria-hidden="true">{project.index}</span>
-        <div>
-          <p className="project-kind">{project.kind[language]}</p>
-          <h3><ProjectTitle title={project.title} /></h3>
-        </div>
-        <span className={`project-status status-${project.status.toLowerCase()}`}>
-          {project.status === 'Live' && <i aria-hidden="true" />}
-          {t.works.status[project.status]}
-        </span>
-      </header>
-
-      <div className="project-body">
-        <p className="project-description">{project.description[language]}</p>
-        <dl className="project-details">
-          <div>
-            <dt>{t.works.detailLabel}</dt>
-            <dd>{project.note[language]}</dd>
-          </div>
-          <div>
-            <dt>{t.works.stackLabel}</dt>
-            <dd>{project.tags.join(' / ')}</dd>
-          </div>
-        </dl>
-        {project.link && project.cta && label && (
-          <ExternalLink className="project-open" href={project.link} label={label}>
-            {project.cta[language]}<span aria-hidden="true">↗</span>
+      <h3 className="project-title">
+        {project.link ? (
+          <ExternalLink href={project.link} label={`${project.title}. ${t.external}`}>
+            {title}
           </ExternalLink>
-        )}
-      </div>
+        ) : title}
+      </h3>
+
+      <span className={`project-status status-${project.status.toLowerCase()}`}>
+        {project.status === 'Live' && <i aria-hidden="true" />}
+        {t.works.status[project.status]}
+      </span>
+
+      <p className="project-tech">{project.tags.join(' / ')}</p>
     </article>
   )
 }
@@ -232,18 +214,7 @@ function About({ language }: { language: Language }) {
         <h2 id="about-title">{t.about.title}</h2>
       </header>
 
-      <div className="about-layout">
-        <p className="about-lead">{t.about.text}</p>
-        <div className="about-note">
-          <p>{t.about.note}</p>
-          <dl>
-            <div>
-              <dt>{t.about.stackLabel}</dt>
-              <dd>React / TypeScript / Python / Firebase</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
+      <p className="about-copy">{t.about.text}</p>
     </section>
   )
 }

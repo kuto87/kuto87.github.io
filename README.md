@@ -6,7 +6,7 @@
 
 ## 主な内容
 
-- 開発中・公開中の制作物から4件を選んで紹介
+- 開発中・公開中のプロジェクト4件を、名前・公開状況・使用技術に絞って掲載
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
 - 墨色を基調に一部へ赤・青・緑・黄土を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
@@ -53,7 +53,7 @@ npm run preview
 - OGP画像: `public/og-particles-v2.png`
 - サイトマップ: `public/sitemap.xml`
 
-作品を追加・削除した場合は、`src/data/site.ts`、`index.html`内のJSON-LD、作品件数の表示を合わせて更新してください。
+プロジェクトを追加・削除した場合は、`src/data/site.ts`と`index.html`内のJSON-LD（プロジェクト情報・件数）を合わせて更新してください。
 
 ## 公開
 
