@@ -2,6 +2,28 @@ import { useEffect, useRef } from 'react'
 
 const STAGE_PADDING = 16
 const SCATTER_RESPONSE_SECONDS = 0.58
+const FAST_SCATTER_RESPONSE_SECONDS = 0.20
+// Scroll position keeps the final shape stable; velocity adds only a temporary burst.
+const DEFAULT_SCROLL_SAMPLE_MS = 1000 / 60
+const MIN_SCROLL_SAMPLE_MS = 8
+const SCROLL_SAMPLE_RESET_MS = 180
+const SCROLL_JUMP_THRESHOLD_VH = 0.75
+const SCROLL_SPEED_DEAD_ZONE_VH_S = 0.06
+const DESKTOP_SCROLL_SPEED_SCALE_VH_S = 1.25
+const COARSE_SCROLL_SPEED_SCALE_VH_S = 2.0
+const DESKTOP_MOMENTUM_DECAY_SECONDS = 0.78
+const COARSE_MOMENTUM_DECAY_SECONDS = 0.62
+const DESKTOP_PROGRESS_BOOST = 0.18
+const MOBILE_PROGRESS_BOOST = 0.13
+const DESKTOP_EXPANSION_BOOST = 0.28
+const MOBILE_EXPANSION_BOOST = 0.17
+const DESKTOP_TANGENT_BOOST = 0.75
+const MOBILE_TANGENT_BOOST = 0.50
+const COARSE_MOMENTUM_SCALE = 0.85
+const UPWARD_MOMENTUM_RETENTION = 0.65
+const MOMENTUM_INPUT_HOLD_MS = 100
+const MOMENTUM_ATTACK_SECONDS = 0.06
+const MOMENTUM_EPSILON = 0.015
 const DESKTOP_IDLE_FPS = 18
 const COARSE_POINTER_IDLE_FPS = 10
 const DESKTOP_ROAM_FPS = 24
@@ -249,8 +271,13 @@ export function ParticleBackdrop() {
     let renderLayout: RenderLayout | null = null
     let currentProgress = 0
     let targetProgress = 0
+    let scrollMomentum = 0
+    let targetScrollMomentum = 0
     let driftTime = 0
     let lastFrameTimestamp = 0
+    let lastScrollY = Math.max(0, window.scrollY)
+    let lastScrollTimestamp = performance.now()
+    let lastMomentumInputTimestamp = 0
     let contextLost = false
     let initializing = false
     const pointRequest = new AbortController()
@@ -289,6 +316,11 @@ export function ParticleBackdrop() {
       animationFrame = 0
       animationTimer = 0
       lastFrameTimestamp = 0
+      scrollMomentum = 0
+      targetScrollMomentum = 0
+      lastScrollY = Math.max(0, window.scrollY)
+      lastScrollTimestamp = performance.now()
+      lastMomentumInputTimestamp = 0
     }
 
     const updateRenderLayout = () => {
@@ -355,9 +387,25 @@ export function ParticleBackdrop() {
         renderLayout.boxWidth,
         renderLayout.boxHeight,
       )
-      gl.uniform1f(locations.progress, currentProgress)
-      gl.uniform1f(locations.expansion, renderLayout.expansion)
-      gl.uniform1f(locations.tangent, renderLayout.tangent)
+      const mobile = isMobile()
+      const progressBoost = mobile ? MOBILE_PROGRESS_BOOST : DESKTOP_PROGRESS_BOOST
+      const expansionBoost = mobile ? MOBILE_EXPANSION_BOOST : DESKTOP_EXPANSION_BOOST
+      const tangentBoost = mobile ? MOBILE_TANGENT_BOOST : DESKTOP_TANGENT_BOOST
+      const displayProgress = clamp(
+        currentProgress + scrollMomentum * (1 - currentProgress) * progressBoost,
+        0,
+        1,
+      )
+
+      gl.uniform1f(locations.progress, displayProgress)
+      gl.uniform1f(
+        locations.expansion,
+        renderLayout.expansion * (1 + scrollMomentum * expansionBoost),
+      )
+      gl.uniform1f(
+        locations.tangent,
+        renderLayout.tangent * (1 + scrollMomentum * tangentBoost),
+      )
       gl.uniform1f(locations.opacity, renderLayout.opacity)
       gl.uniform1f(locations.dpr, renderLayout.dpr)
       gl.uniform1f(locations.time, driftTime)
@@ -373,19 +421,47 @@ export function ParticleBackdrop() {
         return
       }
 
-      const elapsedSeconds = lastFrameTimestamp
-        ? Math.min((timestamp - lastFrameTimestamp) / 1000, 0.125)
+      const rawElapsedSeconds = lastFrameTimestamp
+        ? (timestamp - lastFrameTimestamp) / 1000
         : 0
+      const elapsedSeconds = Math.min(rawElapsedSeconds, 0.125)
+      const decayElapsedSeconds = Math.min(rawElapsedSeconds, 1)
       lastFrameTimestamp = timestamp
 
+      const momentumDecaySeconds = coarsePointer.matches
+        ? COARSE_MOMENTUM_DECAY_SECONDS
+        : DESKTOP_MOMENTUM_DECAY_SECONDS
+      const momentumInputActive = timestamp - lastMomentumInputTimestamp
+        <= MOMENTUM_INPUT_HOLD_MS
+      if (!momentumInputActive) targetScrollMomentum = 0
+      const momentumResponseSeconds = targetScrollMomentum > scrollMomentum
+        ? MOMENTUM_ATTACK_SECONDS
+        : momentumDecaySeconds
+      const momentumElapsedSeconds = targetScrollMomentum > scrollMomentum
+        ? elapsedSeconds
+        : decayElapsedSeconds
+      const momentumResponse = 1 - Math.exp(
+        -momentumElapsedSeconds / momentumResponseSeconds,
+      )
+      scrollMomentum += (targetScrollMomentum - scrollMomentum) * momentumResponse
+      if (targetScrollMomentum === 0 && scrollMomentum < MOMENTUM_EPSILON) {
+        scrollMomentum = 0
+      }
+
       const difference = targetProgress - currentProgress
-      const response = 1 - Math.exp(-elapsedSeconds / SCATTER_RESPONSE_SECONDS)
+      const responseSeconds = SCATTER_RESPONSE_SECONDS
+        + (FAST_SCATTER_RESPONSE_SECONDS - SCATTER_RESPONSE_SECONDS) * scrollMomentum
+      const response = 1 - Math.exp(-elapsedSeconds / responseSeconds)
       currentProgress += difference * response
       if (Math.abs(difference) < 0.0005) currentProgress = targetProgress
       driftTime += elapsedSeconds
       draw()
 
-      if (currentProgress !== targetProgress) {
+      if (
+        currentProgress !== targetProgress
+        || scrollMomentum > 0
+        || targetScrollMomentum > 0
+      ) {
         startAnimation(true)
       } else {
         startAnimation(false)
@@ -398,6 +474,7 @@ export function ParticleBackdrop() {
       if (immediate && animationTimer) {
         window.clearTimeout(animationTimer)
         animationTimer = 0
+        lastFrameTimestamp = 0
       }
       if (animationFrame || animationTimer) return
 
@@ -423,6 +500,39 @@ export function ParticleBackdrop() {
     }
 
     const onScroll = () => {
+      const timestamp = performance.now()
+      const scrollY = Math.max(0, window.scrollY)
+      const deltaY = scrollY - lastScrollY
+      const rawSampleMs = timestamp - lastScrollTimestamp
+
+      if (deltaY > 0 && deltaY <= window.innerHeight * SCROLL_JUMP_THRESHOLD_VH) {
+        const sampleMs = rawSampleMs > SCROLL_SAMPLE_RESET_MS
+          ? DEFAULT_SCROLL_SAMPLE_MS
+          : Math.max(rawSampleMs, MIN_SCROLL_SAMPLE_MS)
+        const viewportHeightsPerSecond = deltaY / sampleMs * 1000
+          / Math.max(window.innerHeight, 1)
+        const speedScale = coarsePointer.matches
+          ? COARSE_SCROLL_SPEED_SCALE_VH_S
+          : DESKTOP_SCROLL_SPEED_SCALE_VH_S
+        const speedAboveDeadZone = Math.max(
+          0,
+          viewportHeightsPerSecond - SCROLL_SPEED_DEAD_ZONE_VH_S,
+        )
+        let momentum = 1 - Math.exp(-speedAboveDeadZone / speedScale)
+        if (coarsePointer.matches) momentum *= COARSE_MOMENTUM_SCALE
+        targetScrollMomentum = momentum >= MOMENTUM_EPSILON ? momentum : 0
+        lastMomentumInputTimestamp = timestamp
+      } else if (deltaY < 0) {
+        targetScrollMomentum = scrollMomentum * UPWARD_MOMENTUM_RETENTION
+        lastMomentumInputTimestamp = timestamp
+      } else if (deltaY > 0) {
+        // Anchor and programmatic jumps should not create an artificial particle blast.
+        targetScrollMomentum = 0
+        lastMomentumInputTimestamp = timestamp
+      }
+
+      lastScrollY = scrollY
+      lastScrollTimestamp = timestamp
       targetProgress = getTargetProgress()
       startAnimation()
     }
@@ -432,6 +542,8 @@ export function ParticleBackdrop() {
       resizeFrame = requestAnimationFrame(() => {
         resizeFrame = 0
         renderLayout = null
+        lastScrollY = Math.max(0, window.scrollY)
+        lastScrollTimestamp = performance.now()
         targetProgress = getTargetProgress()
         if (reducedMotion.matches || forcedColors.matches) return
         draw()
@@ -443,6 +555,8 @@ export function ParticleBackdrop() {
       if (document.hidden) {
         stopAnimation()
       } else {
+        lastScrollY = Math.max(0, window.scrollY)
+        lastScrollTimestamp = performance.now()
         targetProgress = getTargetProgress()
         startAnimation()
       }
@@ -453,6 +567,11 @@ export function ParticleBackdrop() {
         stopAnimation()
         stage.classList.remove('is-ready')
       } else if (gl && program && buffer && locations && !contextLost) {
+        scrollMomentum = 0
+        targetScrollMomentum = 0
+        lastScrollY = Math.max(0, window.scrollY)
+        lastScrollTimestamp = performance.now()
+        lastMomentumInputTimestamp = 0
         currentProgress = getTargetProgress()
         targetProgress = currentProgress
         renderLayout = null
@@ -502,6 +621,11 @@ export function ParticleBackdrop() {
       bindBuffer()
       currentProgress = getTargetProgress()
       targetProgress = currentProgress
+      scrollMomentum = 0
+      targetScrollMomentum = 0
+      lastScrollY = Math.max(0, window.scrollY)
+      lastScrollTimestamp = performance.now()
+      lastMomentumInputTimestamp = 0
       draw()
 
       if (!reducedMotion.matches && !forcedColors.matches) {
