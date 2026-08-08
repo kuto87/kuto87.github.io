@@ -9,7 +9,7 @@
 - 開発中・公開中のプロジェクト4件を、名前・公開状況・使用技術に絞って掲載
 - 日本語 / English 切り替え
 - GitHub / Xへのリンク
-- 墨色を基調に一部へ赤・青・緑・黄土を混ぜたWebGL point spritesによる87の微動、緩やかなスクロール散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
+- 墨色を基調に一部へ赤・青・緑・黄土を混ぜたWebGL point spritesによる87の微動、スクロール速度に連動する慣性付き散開、散開後の自由な個別遊泳（透過PNGフォールバック付き）
 - キーボード操作、スキップリンク、reduced motion対応
 - OGP、Twitter Card、JSON-LD、canonical、sitemap、robots
 - GitHub Pages用のブランド404ページ
