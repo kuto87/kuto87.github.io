@@ -1,5 +1,10 @@
 # KUTO87
 
+> **移転しました。** このサイトは [くとはな（kutohana.com）](https://kutohana.com/) に移りました。
+> GitHub Pages（https://kuto87.github.io/）には `redirect/` の転送ページだけを公開しています。
+> `/` と `/en/` は kutohana.com へ転送し（`#works` `#about` は同じ場所へ、`#contact` は `#about` へ）、ほかのパスは移転を知らせる 404 ページを出します。
+> 下の React 版のソースはそのまま残しています。戻すときは、この移転のコミットを `git revert` してください（`deploy.yml`・README・`redirect/` がまとめて元に戻ります）。
+
 [kuto87公式サイト](https://kuto87.github.io/) のソースコードです。
 
 個人で作ったゲームやCLIと、現在制作中のものを日英2言語でまとめる1ページ構成のサイトです。暖かな紙色、コンデンス体のロックアップ、`87`の輪郭から生成した濃い点群背景で構成しています。
@@ -57,14 +62,10 @@ npm run preview
 
 ## 公開
 
-`main` ブランチへのpushで、GitHub Actionsが次を実行します。
+`main` ブランチへのpushで、GitHub Actionsが `redirect/` をGitHub Pagesへデプロイします（移転後）。
+React 版の Lint と本番ビルドは、Quality ワークフローで pull request と `main` へのpushごとに確認しています。
 
-1. 依存関係をクリーンインストール
-2. Lint
-3. 本番ビルド
-4. GitHub Pagesへデプロイ
-
-公開URL: https://kuto87.github.io/
+公開URL: https://kuto87.github.io/（https://kutohana.com/ へ転送）
 
 ## 権利
 
